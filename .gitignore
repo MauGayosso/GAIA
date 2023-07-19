@@ -1,0 +1,12 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/FileExplorer/bin/Debug/GroupDocs.Viewer.dll
+/FileExplorer/bin/x64/Release/GroupDocs.Viewer.dll
+/gaia_demo
+/.vs
+/FileExplorer/bin
+/FileExplorer/obj
+/FileExplorer/Properties
+/FileExplorer/.gitattributes

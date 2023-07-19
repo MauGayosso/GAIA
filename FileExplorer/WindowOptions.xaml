@@ -1,0 +1,31 @@
+﻿<Window x:Class="FileExplorer.WindowOptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileExplorer"
+        mc:Ignorable="d"
+        Title="WindowOptions" Height="328" Width="540" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/image/bwall.jpg"/>
+        </Grid.Background>
+        <Canvas Margin="62,71,0,0" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left" Width="422">
+            <Button x:Name="btnClientes" Canvas.Left="36" Canvas.Top="19" Height="160" Width="172" Click="btnClientes_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Cursor="" BorderBrush="{x:Null}">
+                <Image Source="/image/search.png" Stretch="Fill" Cursor="Hand" >
+                    <Image.Effect>
+                        <BlurEffect Radius="0"></BlurEffect>
+                    </Image.Effect>
+                </Image>
+            </Button>
+            <Button x:Name="btnAgregar" Canvas.Left="238" Canvas.Top="19" Height="160" Width="160" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Click="btnAgregar_Click" BorderBrush="{x:Null}">
+                <Image Source="/image/administrate.png" Cursor="" >
+                </Image>
+            </Button>
+            <Label Content="ADMINISTRAR" Canvas.Left="263" Canvas.Top="75" HorizontalAlignment="Left" Height="23" VerticalAlignment="Center" Width="95" Background="#FFF9F7F8" FontWeight="Bold"/>
+            <Label Canvas.Left="45" Canvas.Top="101" Content="CONSULTAS" FontWeight="Bold" Background="{x:Null}" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" Foreground="Black" Width="82"/>
+            <Rectangle Height="16" Canvas.Left="263" Canvas.Top="98" Width="54" Fill="#FFF9F7F8" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        </Canvas>
+        <Image HorizontalAlignment="Left" Height="54" Margin="10,10,0,0" VerticalAlignment="Top" Width="87" Source="/image/logo1.png"/>
+    </Grid>
+</Window>

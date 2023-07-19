@@ -1,0 +1,54 @@
+﻿<Window x:Class="FileExplorer.WindowAtts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileExplorer"
+        mc:Ignorable="d"
+        Title="Asignar Propiedades" ResizeMode="NoResize" Width="708" Height="520">
+    <Grid Height="526" VerticalAlignment="Center" Background="#FF003952">
+        <TextBox x:Name="txtName" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="192" BorderThickness="0,0,0,0" Height="32"/>
+        <Canvas Margin="46,10,46,10" Background="#FFC3C3C3">
+            <Label Content="No. Parte" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Lote" Canvas.Left="10" Canvas.Top="67" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Revisión" Canvas.Left="10" Canvas.Top="100" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Tipo Acero" Canvas.Left="211" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="Materia Prima" Canvas.Left="208" Canvas.Top="41" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="Fecha de edición" Canvas.Left="10" Canvas.Top="131" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Acabado Superficial" Canvas.Left="208" Canvas.Top="72" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtParte" Canvas.Left="79" TextWrapping="Wrap" Canvas.Top="14" Width="120" Background="#FFDADADA"/>
+            <TextBox x:Name="txtProyecto" Canvas.Left="79" TextWrapping="Wrap" Canvas.Top="45" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FFDADADA"/>
+            <Label Content="Proyecto" Canvas.Left="10" Canvas.Top="41"/>
+            <TextBox x:Name="txtLote" Canvas.Left="79" TextWrapping="Wrap"  Canvas.Top="75" Width="120" Background="#FFDADADA"/>
+            <TextBox x:Name="txtRev" Canvas.Left="79" TextWrapping="Wrap"  Canvas.Top="104" Width="120" Background="#FFDADADA"/>
+            <DatePicker x:Name="dpPick" Canvas.Left="121" Canvas.Top="133"/>
+            <ComboBox x:Name="cmbAcero" Canvas.Left="328" Canvas.Top="14" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <ComboBoxItem Content="Inoxidable"></ComboBoxItem>
+            </ComboBox>
+            <ComboBox x:Name="cmbMP" Canvas.Left="328" Canvas.Top="43" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <ComboBoxItem Content="ML11PLCNEU007ART"></ComboBoxItem>
+            </ComboBox>
+            <ComboBox x:Name="cmbAS" Canvas.Left="328" Canvas.Top="77" Width="120">
+                <ComboBoxItem Content="Natural"></ComboBoxItem>
+            </ComboBox>
+            <Rectangle Height="65" Canvas.Left="10" Stroke="#FF1300FF" Canvas.Top="179" Width="313" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <CheckBox x:Name="chkCorte" Content="Corte" Canvas.Left="24" Canvas.Top="189"/>
+            <CheckBox x:Name="chkDoblez" Content="Doblez" Canvas.Left="121" Canvas.Top="189"/>
+            <CheckBox x:Name="chkPintura" Content="Pintura" Canvas.Left="230" Canvas.Top="189"/>
+            <CheckBox x:Name="chkDetallado" Content="Detallado" Canvas.Left="24" Canvas.Top="218"/>
+            <CheckBox x:Name="chkMaquinado" Content="Maquinado" Canvas.Left="121" Canvas.Top="218"/>
+            <CheckBox x:Name="chkSoldadura" Content="Soldadura" Canvas.Left="230" Canvas.Top="218" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <CheckBox x:Name="chkArticulo" Content="1. Creacion de articulo" Canvas.Left="7" Canvas.Top="288" Checked="chkArticulo_Checked" Unchecked="chkArticulo_Unchecked"/>
+            <CheckBox x:Name="chkEstructura" Content="2. Estructura de producto" Unchecked="chkEstructura_Unchecked" Checked="chkEstructura_Checked" Canvas.Left="150" Canvas.Top="288" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False"/>
+            <CheckBox x:Name="chkProcesos" Content="3. Descrip. de procesos" Unchecked="chkProcesos_Unchecked" Checked="chkProcesos_Checked" Canvas.Left="309" Canvas.Top="288" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+            <CheckBox x:Name="chkModelado" Content="4. Modelado" Unchecked="chkModelado_Unchecked" Checked="chkModelado_Checked" Canvas.Left="8" Canvas.Top="308" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+            <CheckBox x:Name="chkPublicacion" Content="5. Publicación" Unchecked="chkPublicacion_Unchecked" Checked="chkPublicacion_Checked" Canvas.Left="150" Canvas.Top="311" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False"/>
+            <ProgressBar x:Name="progressB" Height="25" Canvas.Left="10" Canvas.Top="350" Width="438" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button Content="Guardar" Click="Button_Click" Height="28" Canvas.Left="503" Canvas.Top="453" Width="85" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" BorderBrush="#FF0C009C"/>
+            <TextBox x:Name="txtF" Canvas.Left="37" TextWrapping="Wrap" Canvas.Top="467" Width="120"/>
+
+        </Canvas>
+        <Image x:Name="displayImage" Margin="554,17,57,412"/>
+
+    </Grid>
+</Window>

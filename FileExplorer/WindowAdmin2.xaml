@@ -1,0 +1,234 @@
+﻿<Window
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
+		xmlns:local="clr-namespace:FileExplorer"
+		xmlns:prop="clr-namespace:FileExplorer.Properties"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:h="http://helix-toolkit.org/wpf"
+        x:Class="FileExplorer.WindowAdmin2"
+        mc:Ignorable="d"
+        Title="Administrador" SizeToContent="WidthAndHeight" WindowState="Maximized" Width="1360" Height="768">
+
+    <Grid>
+        <Rectangle HorizontalAlignment="Left" Height="103" VerticalAlignment="Top" Width="1920" Fill="#FFA7C7FF"/>
+        <Image HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="90" Source="/image/logo1rb.png" Grid.Column="3" Grid.ColumnSpan="2" Margin="9,0,0,0"/>
+        <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
+                Margin="1288,26,0,0" Width="62" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="56" Foreground="{x:Null}">
+            <Image Source="/image/user.png" Height="59" Width="51" StretchDirection="DownOnly"/>
+        </Button>
+        <StackPanel x:Name="MenuItemsPanel" Visibility="Hidden" Margin="1200,26,0,0" Width="83" VerticalAlignment="Top" Height="70" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <Button Click="MenuClick" Content="Regresar" Background="White"/>
+            <Button Click="LogOut" Content="Cerrar sesión" Background="White"/>
+            <Button Click="ExitClick" Content="Salir" Background="White"/>
+        </StackPanel>
+        <TabControl Margin="0,70,3,0">
+            <TabItem Header="Clientes">
+                <Grid VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="/image/bwall.jpg"/>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="89*"/>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="22*"/>
+                        <ColumnDefinition Width="54*"/>
+                        <ColumnDefinition Width="74*"/>
+                        <ColumnDefinition Width="1660*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="dynamicTable" IsReadOnly="True"  AutoGenerateColumns="False" Margin="18,27,0,42" Grid.ColumnSpan="6" HorizontalAlignment="Left" Width="402">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Ubicacion" Binding="{Binding PathClient}" />
+                            <DataGridTemplateColumn Header="">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Editar" Command="{Binding EditCommand}" CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Eliminar" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="btnReload" Grid.Column="5" HorizontalAlignment="Left" Margin="177,28,0,0" VerticalAlignment="Top" Height="21" Width="25" BorderBrush="White" Click="btnReload_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/image/refresh.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Canvas  x:Name="canvaCliente" Visibility="Hidden" Grid.Column="5" Margin="323,27,0,0" Background="White" Height="244" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="279">
+                        <TextBox x:Name="txtNameInsertClient" Canvas.Left="16" TextWrapping="Wrap" Canvas.Top="70" Width="160" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#FF0040FF"/>
+                        <Button x:Name="btnSelectFolderCliente" Content="Selecciona una carpeta" Canvas.Left="16" Canvas.Top="110" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnSelectFolderCliente_Click" RenderTransformOrigin="0.5,0.5"/>
+                        <Button Content="Agregar" Canvas.Left="104" Canvas.Top="200" Height="26" RenderTransformOrigin="0.5,0.5" Width="72" Click="Button_Click"/>
+                        <Label Content="Nombre del cliente" HorizontalAlignment="Left" Canvas.Left="16" Canvas.Top="39" VerticalAlignment="Center"/>
+                        <Rectangle Height="30" Stroke="#FF0027FF" Width="281" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF81CAF4"/>
+                        <Label Content="Agregar cliente" Canvas.Top="2" HorizontalAlignment="Left" VerticalAlignment="Center" Width="176"/>
+                        <TextBox x:Name="txtPath" Canvas.Left="16" TextWrapping="Wrap"  Canvas.Top="150" Width="255" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Background="{x:Null}" BorderBrush="#FF0040FF"/>
+                    </Canvas>
+                    <Button x:Name="btnAddClient" Grid.Column="5" HorizontalAlignment="Left" Margin="215,28,0,0" VerticalAlignment="Top" Height="22" Width="22" BorderBrush="White" Foreground="{x:Null}" Click="btnAddClient_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/image/add-user.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Canvas x:Name="editClientCanva" Visibility="Hidden" Grid.Column="5" Margin="321,303,0,99" Background="White" Height="250" HorizontalAlignment="Left" Width="281">
+                        <Rectangle Height="30" Stroke="#FF0010FF" Width="281" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF81CAF4"/>
+                        <TextBox x:Name="txtEditPathClient" TextWrapping="Wrap" Width="251" BorderBrush="#FF0040FF" HorizontalAlignment="Center" Canvas.Left="10" Canvas.Top="170" VerticalAlignment="Top"/>
+                        <Button Content="Agregar" Width="54" Click="Button_Click_2" HorizontalAlignment="Left" Canvas.Left="114" Canvas.Top="205" VerticalAlignment="Top"/>
+                        <Label Content="Nuevo nombre" Canvas.Left="11" Canvas.Top="84" HorizontalAlignment="Left" VerticalAlignment="Center" Width="96"/>
+                        <TextBox x:Name="txtNewNameCliente" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="110" Width="126" Height="20" BorderBrush="#FF0040FF"/>
+                        <Button x:Name="btnEditPathCliente" Content="Selecciona una carpeta" Width="130" Click="btnEditPathCliente_Click" HorizontalAlignment="Left" Canvas.Left="11" Canvas.Top="135" VerticalAlignment="Top"/>
+                        <TextBox x:Name="txtEditCliente" IsReadOnly="True" TextWrapping="Wrap" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Left" Canvas.Left="11" Canvas.Top="66" VerticalAlignment="Top"/>
+
+                        <Label Grid.Column="3" Content="Editar Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="4"/>
+                        <Label Grid.Column="3" Content="Nombre de Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="35"/>
+                    </Canvas>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Usuarios">
+                <Grid VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="106*"/>
+                        <ColumnDefinition Width="23*"/>
+                        <ColumnDefinition Width="1190*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="/image/bwall.jpg"/>
+                    </Grid.Background>
+                    <DataGrid x:Name="dynamicTableUsers" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,10,0,27" Grid.ColumnSpan="5" HorizontalAlignment="Left" Width="402">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Usuario" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Contraseña" Binding="{Binding Password}" />
+                            <DataGridTextColumn Header="Rol" Binding="{Binding Rol}"/>
+                            <DataGridTemplateColumn Header="Editar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Editar" Command="{Binding EditCommand}" CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Eliminar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Eliminar" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="btnReloadUsers" Grid.Column="4" HorizontalAlignment="Left" Margin="173,11,0,0" VerticalAlignment="Top" Click="btnReloadUsers_Click_1" Height="23" Width="27" Foreground="{x:Null}" BorderBrush="White">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/image/refresh.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="btnAddUsers" Grid.Column="4" HorizontalAlignment="Left" Margin="213,11,0,0" VerticalAlignment="Top" Height="23" Width="22" BorderBrush="#FFFDFDFD" Click="btnAddUsers_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/image/add-user.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Canvas x:Name="canvaUsers" Visibility="Hidden" Grid.Column="4" Margin="308,63,0,326" Background="White" HorizontalAlignment="Left" Width="174">
+                        <Label Content="Usuario" Canvas.Left="30" Canvas.Top="30"/>
+                        <TextBox x:Name="txtUsuario" Canvas.Left="30" TextWrapping="Wrap" Canvas.Top="61" Width="120" BorderBrush="#FF0040FF"/>
+                        <Label Content="Contraseña" Canvas.Left="30" Canvas.Top="133" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <TextBox x:Name="txtContraUsusario" Canvas.Left="30" TextWrapping="Wrap" Canvas.Top="169" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <Button Content="Agregar" Canvas.Left="67" Canvas.Top="210" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="#FF0040FF" Click="Button_Click_1"/>
+                        <Rectangle Height="25" Width="175" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF6FCAC4" Stroke="#FF0010FF"/>
+                        <Label Grid.Column="3" Content="Rol" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="30" Canvas.Top="84"/>
+
+                        <Label Content="Agregar usuario"/>
+                        <ComboBox x:Name="cmbRol" Canvas.Left="30" Canvas.Top="111" Width="120" BorderBrush="#FF0040FF">
+                            <ComboBoxItem Content="admin"></ComboBoxItem>
+                            <ComboBoxItem Content="lector"></ComboBoxItem>
+                        </ComboBox>
+                    </Canvas>
+                    <Canvas x:Name="editUsersCanva" Visibility="Hidden" Grid.Column="4" Margin="308,331,0,61" Background="White" Height="260" Width="175" HorizontalAlignment="Left">
+                        <Label Content="Usuario" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="31" VerticalAlignment="Top"/>
+                        <Label Content="Nuevo nombre" Canvas.Left="10" Canvas.Top="72" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <Rectangle Grid.Column="2" HorizontalAlignment="Left" Height="21" Stroke="#FF001BFF" VerticalAlignment="Center" Width="175" Fill="#FF6FCAC4"/>
+                        <Label Grid.Column="2" Content="Editar Usuario" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="3" Canvas.Top="-2"/>
+                        <TextBox x:Name="txtEditUser" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="57"/>
+                        <TextBox x:Name="txtEditNewUser" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="99"/>
+                        <TextBox x:Name="txtPassword" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="195"/>
+                        <Label Grid.Column="2" Content="Contraseña nueva" HorizontalAlignment="Center" VerticalAlignment="Top" Width="105" Canvas.Left="10" Canvas.Top="168"/>
+                        <Button Grid.Column="2" Content="Actualizar" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="55" Canvas.Top="226" Click="Button_Click_3"/>
+                        <ComboBox x:Name="cmbEditRol" Canvas.Left="10" Canvas.Top="141" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <ComboBoxItem Content="admin"></ComboBoxItem>
+                            <ComboBoxItem Content="lector"></ComboBoxItem>
+                        </ComboBox>
+                        <Label Grid.Column="3" Content="Rol" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="10" Canvas.Top="117"/>
+                    </Canvas>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Tips" Height="22" Margin="0,0,0,0" VerticalAlignment="Center">
+                <Grid HorizontalAlignment="Left" Width="1351">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="237*"/>
+                        <ColumnDefinition Width="485*"/>
+                        <ColumnDefinition Width="629*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="/image/bwall.jpg"/>
+                    </Grid.Background>
+                    <DataGrid x:Name="dynamicTableTips" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,0,0,39" HorizontalAlignment="Left" Width="432" Height="603" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" />
+                            <DataGridTextColumn Header="Categoria" Binding="{Binding Category}" />
+                            <DataGridTemplateColumn Header="">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Editar" Command="{Binding EditCommand}" CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header=" ">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Eliminar" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Button" Margin="154,13,0,0" VerticalAlignment="Top" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="20" RenderTransformOrigin="0.5,0.5" Click="btnReloadUsers_Click_1" HorizontalAlignment="Left" Width="26" Grid.Column="1">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/image/refresh.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Content="Button" Margin="185,13,0,0" VerticalAlignment="Top" Height="20" Foreground="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Width="20" Grid.Column="1">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/image/addTip.png"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ayudas Visuales">
+                <Grid Height="652" VerticalAlignment="Center" HorizontalAlignment="Left" Width="1351">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="/image/bwall.jpg"/>
+                    </Grid.Background>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
