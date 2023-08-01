@@ -1,28 +1,19 @@
 ﻿
+using Notifications.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.OleDb;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Media3D;
 using System.Windows.Threading;
-using Windows.Devices.PointOfService;
-using Material = System.Windows.Media.Media3D.Material;
-using MessageBox = System.Windows.MessageBox;
-using Outlook = Microsoft.Office.Interop.Outlook;
 using Path = System.IO.Path;
-using Notifications.Wpf;
-using Aspose.CAD.FileFormats.Cgm;
-using System.Collections.Generic;
-using Notifications.Wpf.Controls;
-using Newtonsoft.Json.Linq;
-using System.Data.OleDb;
 
 namespace FileExplorer
 {
@@ -117,7 +108,6 @@ namespace FileExplorer
 			foreach (var m in mensajes)
 			{
 				// notifications.Add(new NotificationContent { Title = "Tip", Message = m, Type = NotificationType.Information });
-				Debug.WriteLine("msg: " + m);
 			}
 
 			// Configure and start the timer
@@ -140,7 +130,6 @@ namespace FileExplorer
 				while (reader.Read())
 				{
 					mensajes.Add(reader.GetValue(0).ToString());
-					// Debug.WriteLine("msg: " + reader.GetValue(0).ToString());
 				}
 				reader.Close();
 				connection.Close();
@@ -274,7 +263,7 @@ namespace FileExplorer
 			{
 				System.IO.File.WriteAllText(@"pathAVCorte.txt", parseDirCorte);
 			}
-			catch (Exception err)
+			catch (Exception)
 			{
 				//System.Windows.MessageBox.Show("There has been an error saving the current directory.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}

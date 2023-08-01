@@ -16,19 +16,19 @@
             <Label Content="Materia Prima" Canvas.Left="208" Canvas.Top="41" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Label Content="Fecha de edición" Canvas.Left="10" Canvas.Top="131" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Label Content="Acabado Superficial" Canvas.Left="208" Canvas.Top="72" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <TextBox x:Name="txtParte" Canvas.Left="79" TextWrapping="Wrap" Canvas.Top="14" Width="120" Background="#FFDADADA"/>
-            <TextBox x:Name="txtProyecto" Canvas.Left="79" TextWrapping="Wrap" Canvas.Top="45" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FFDADADA"/>
+            <TextBox x:Name="txtParte" Canvas.Left="79" TextWrapping="Wrap" Canvas.Top="14" Width="120" Background="#FFDADADA" AutomationProperties.IsRequiredForForm="True"/>
+            <TextBox x:Name="txtProyecto" Canvas.Left="79" TextWrapping="Wrap" Canvas.Top="45" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FFDADADA" AutomationProperties.IsRequiredForForm="True"/>
             <Label Content="Proyecto" Canvas.Left="10" Canvas.Top="41"/>
-            <TextBox x:Name="txtLote" Canvas.Left="79" TextWrapping="Wrap"  Canvas.Top="75" Width="120" Background="#FFDADADA"/>
-            <TextBox x:Name="txtRev" Canvas.Left="79" TextWrapping="Wrap"  Canvas.Top="104" Width="120" Background="#FFDADADA"/>
-            <DatePicker x:Name="dpPick" Canvas.Left="121" Canvas.Top="133"/>
-            <ComboBox x:Name="cmbAcero" Canvas.Left="328" Canvas.Top="14" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBox x:Name="txtLote" Canvas.Left="79" TextWrapping="Wrap"  Canvas.Top="75" Width="120" Background="#FFDADADA" AutomationProperties.IsRequiredForForm="True"/>
+            <TextBox x:Name="txtRev" Canvas.Left="79" TextWrapping="Wrap"  Canvas.Top="104" Width="120" Background="#FFDADADA" AutomationProperties.IsRequiredForForm="True"/>
+            <DatePicker x:Name="dpPick" Canvas.Left="121" Canvas.Top="133" AutomationProperties.IsRequiredForForm="True"/>
+            <ComboBox x:Name="cmbAcero" Canvas.Left="328" Canvas.Top="14" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" AutomationProperties.IsRequiredForForm="True">
                 <ComboBoxItem Content="Inoxidable"></ComboBoxItem>
             </ComboBox>
-            <ComboBox x:Name="cmbMP" Canvas.Left="328" Canvas.Top="43" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <ComboBox x:Name="cmbMP" Canvas.Left="328" Canvas.Top="43" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" AutomationProperties.IsRequiredForForm="True">
                 <ComboBoxItem Content="ML11PLCNEU007ART"></ComboBoxItem>
             </ComboBox>
-            <ComboBox x:Name="cmbAS" Canvas.Left="328" Canvas.Top="77" Width="120">
+            <ComboBox x:Name="cmbAS" Canvas.Left="328" Canvas.Top="77" Width="120" AutomationProperties.IsRequiredForForm="True">
                 <ComboBoxItem Content="Natural"></ComboBoxItem>
             </ComboBox>
             <Rectangle Height="65" Canvas.Left="10" Stroke="#FF1300FF" Canvas.Top="179" Width="313" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -44,7 +44,7 @@
             <CheckBox x:Name="chkModelado" Content="4. Modelado" Unchecked="chkModelado_Unchecked" Checked="chkModelado_Checked" Canvas.Left="8" Canvas.Top="308" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
             <CheckBox x:Name="chkPublicacion" Content="5. Publicación" Unchecked="chkPublicacion_Unchecked" Checked="chkPublicacion_Checked" Canvas.Left="150" Canvas.Top="311" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False"/>
             <ProgressBar x:Name="progressB" Height="25" Canvas.Left="10" Canvas.Top="350" Width="438" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Button Content="Guardar" Click="Button_Click" Height="28" Canvas.Left="503" Canvas.Top="453" Width="85" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" BorderBrush="#FF0C009C"/>
+            <Button x:Name="save" Content="Guardar" Click="Button_Click" Height="28" Canvas.Left="503" Canvas.Top="453" Width="85" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" BorderBrush="#FF0C009C"/>
             <TextBox x:Name="txtF" Canvas.Left="37" TextWrapping="Wrap" Canvas.Top="467" Width="120"/>
 
         </Canvas>

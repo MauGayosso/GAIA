@@ -1,9 +1,7 @@
-﻿using Aspose.CAD.FileFormats.Cad.CadObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.OleDb;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -510,9 +508,8 @@ namespace FileExplorer
 				}
 
 			}
-			catch (Exception err)
+			catch (Exception)
 			{
-				Debug.WriteLine("Error : " + err.Message);
 			}
 		}
 	}

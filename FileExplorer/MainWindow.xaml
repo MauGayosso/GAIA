@@ -8,14 +8,15 @@
 		xmlns:prop="clr-namespace:FileExplorer.Properties"
         xmlns:helix="http://helix-toolkit.org/wpf"
         xmlns:edrawing="clr-namespace:DuEDrawingControl;assembly=DuEDrawingControl"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         x:Class="FileExplorer.MainWindow"
 		Closing="Window_Closing"
 		Title="{Binding SelectedOption}" Width="1920" Height="1080" Icon="/image/logoAb.png" WindowState="Maximized">
     <Window.Resources>
-        <Style TargetType="TextBox" x:Key="RoundedTextBoxStyle">
+        <Style TargetType="{x:Type TextBox}" x:Key="RoundedTextBoxStyle">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
+                    <ControlTemplate TargetType="{x:Type TextBox}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -26,10 +27,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="ListView" x:Key="LitStyle">
+        <Style TargetType="{x:Type ListView}" x:Key="LitStyle">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ListView">
+                    <ControlTemplate TargetType="{x:Type ListView}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -40,10 +41,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="TreeView" x:Key="RoundedTreeView">
+        <Style TargetType="{x:Type TreeView}" x:Key="RoundedTreeView">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="TreeView">
+                    <ControlTemplate TargetType="{x:Type TreeView}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -54,10 +55,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Button" x:Key="RoundedButtonStyle">
+        <Style TargetType="{x:Type Button}" x:Key="RoundedButtonStyle">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -68,15 +69,17 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
-    <Grid Margin="-1,-1,1,1">
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="306*"/>
             <ColumnDefinition Width="145*"/>
             <ColumnDefinition Width="16*"/>
-            <ColumnDefinition Width="613*"/>
+            <ColumnDefinition Width="323*"/>
+            <ColumnDefinition Width="290*"/>
             <ColumnDefinition Width="631*"/>
-            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="120*"/>
@@ -89,7 +92,7 @@
             <ImageBrush ImageSource="/image/bwall.jpg"/>
         </Grid.Background>
         <!-- Menu items -->
-        <TextBox x:Name="dirDisplay" Visibility="Hidden" IsReadOnly="True" Text="{Binding parseDir}" TextChanged="dirDisplay_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" RenderTransformOrigin="0.5,0.5" Grid.Column="4" Margin="285,0,0,0" >
+        <TextBox x:Name="dirDisplay" Visibility="Hidden" IsReadOnly="True" Text="{Binding parseDir}" TextChanged="dirDisplay_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" RenderTransformOrigin="0.5,0.5" Grid.Column="5" Margin="285,0,0,0" >
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>
@@ -99,43 +102,14 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <Button x:Name="btnBuscar" Content="Buscar" Style="{StaticResource RoundedButtonStyle}" Height="26" Click="SearchButton_Click" FontSize="9" Width="54" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="#FF007769" Background="White" Margin="0,77,567,0" Grid.Column="4"/>
-        <TextBox ToolTip="Buscar" x:Name="txtSearch" Style="{StaticResource RoundedTextBoxStyle}" KeyDown="txtSearch_KeyDown" Cursor="Help" Margin="385,77,0,0" Background="#FFE8E8E8" HorizontalAlignment="Left" Width="216" Height="26" VerticalAlignment="Top" Grid.Column="3"/>
-        <StackPanel  x:Name="parseMsg" Panel.ZIndex="2" Orientation="Horizontal" Margin="43,259,112,117" Grid.ColumnSpan="2">
+        <Button x:Name="btnBuscar" Content="Buscar" Style="{StaticResource RoundedButtonStyle}" Height="26" Click="SearchButton_Click" FontSize="9" Width="54" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="Black" Background="White" Margin="0,77,567,0" Grid.Column="5"/>
+        <TextBox ToolTip="Buscar" x:Name="txtSearch" Style="{StaticResource RoundedTextBoxStyle}" KeyDown="txtSearch_KeyDown" Cursor="Help" Margin="62,77,0,0" Background="#FFE8E8E8" HorizontalAlignment="Left" Width="216" Height="26" VerticalAlignment="Top" Grid.Column="4" BorderBrush="Black"/>
+        <StackPanel  x:Name="parseMsg" Panel.ZIndex="2" Orientation="Horizontal" Margin="47,179,108,197" Grid.ColumnSpan="2">
             <Image  Source="image/lifttruck.png" VerticalAlignment="Top"/>
             <Label  Content="Cargando..." />
         </StackPanel>
-        <TreeView x:Name="fileDisplay" PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" HorizontalAlignment="Left" Width="486" Background="#FFC5C5C5" Margin="28,241,0,24" Grid.ColumnSpan="4" BorderBrush="#FF005BFF" Grid.RowSpan="3">
-            <TreeView.Resources>
-                <ContextMenu x:Key="TreeViewContextMenu" x:Name="TreeViewContextMenu">
-                    <MenuItem Header="Open" Click="MenuItem_Click"/>
-                </ContextMenu>
-            </TreeView.Resources>
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding children}">
-                    <CheckBox x:Name="chkb" Click="chk_clicked" IsChecked="{Binding isChecked}" Cursor="Hand">
-                        <CheckBox.Template>
-                            <ControlTemplate TargetType="CheckBox">
-                                <StackPanel x:Name="myStack" HorizontalAlignment="Left" Orientation="Horizontal" Background="#FFC5C5C5">
-                                    <Image Source="{Binding iconLoc}" Width="18"/>
-                                    <Label x:Name="lbl" Content="{Binding name}"/>
-                                </StackPanel>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter TargetName="myStack" Property="Background" Value="#FFEDFF46"/>
-                                    </Trigger>
-                                    <Trigger Property="IsChecked" Value="False">
-                                        <Setter TargetName="myStack" Property="Background" Value="#FFC5C5C5"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </CheckBox.Template>
-                    </CheckBox>
-                </HierarchicalDataTemplate>
 
-            </TreeView.ItemTemplate>
-        </TreeView>
-        <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" Height="72" RenderTransformOrigin="0.5,0.5" Margin="132,390,0,0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+        <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" Height="72" RenderTransformOrigin="0.5,0.5" Margin="134,336,0,0" Grid.Column="1" Grid.ColumnSpan="3">
             <DockPanel.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -144,20 +118,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </DockPanel.RenderTransform>
-            <ToolBar Height="68" Width="293" Background="#FF494C6F">
-                <Button Click="Button_Click_1" Height="34" Width="31" ToolTip="Enviar Confirmación" ToolBar.OverflowMode="Never">
-                    <Image Source="image/email.png" Width="26" Height="22" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-                </Button>
-                <Separator></Separator>
+            <ToolBar Height="68" Width="190" Background="#FF494C6F">
                 <Button Click="Open_Click" ToolTip="Visualizar">
                     <Image Source="image/eye.png" Width="28" Height="30" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
@@ -170,7 +131,7 @@
                         </Image.RenderTransform>
                     </Image>
                 </Button>
-                <Separator></Separator>
+                <Separator x:Name="sB" Visibility="Collapsed"/>
                 <Button x:Name="measureB" Visibility="Collapsed" Click="Button_Click_2" Height="34" Width="31" ToolTip="Medir">
                     <Image Source="image/measure.png" Width="25" Height="27" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
@@ -183,7 +144,7 @@
                         </Image.RenderTransform>
                     </Image>
                 </Button>
-                <Separator></Separator>
+                <Separator/>
                 <Button Click="folder_click" Height="31" Width="29" ToolTip="Abrir ubicacion">
                     <Image Source="image/folder_i.png" Width="21" Height="21" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
@@ -196,33 +157,7 @@
                         </Image.RenderTransform>
                     </Image>
                 </Button>
-                <Separator></Separator>
-                <Button Click="reloadTreeView_click" Height="34" Width="31" ToolTip="Carpeta Inicial">
-                    <Image Source="image/home.png" Width="25" Height="23" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-                </Button>
-                <Separator></Separator>
-                <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta">
-                    <Image Source="image/back.png" Width="25" Height="23" RenderTransformOrigin="0.5,0.5">
-                        <Image.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Image.RenderTransform>
-                    </Image>
-                </Button>
-                <Separator></Separator>
+                <Separator/>
                 <Button x:Name="btnSaveInfo" Click="SaveInfoFile_Click" Height="34" Width="31" ToolTip="Agregar elementos" ToolBar.OverflowMode="AsNeeded">
                     <Image Source="image/tag.png" Width="25" Height="25" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
@@ -251,57 +186,40 @@
 
             </ToolBar>
         </DockPanel>
-        <TreeView ToolTip="Resultados de Busqueda" x:Name="twSearched" SelectedItemChanged="twSearched_SelectedItemChanged" Background="#FFC5C5C5" Margin="28,123,566,0" Grid.ColumnSpan="4" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Height="104" VerticalAlignment="Top">
-            <TreeView.ContextMenu>
-                <ContextMenu x:Name="ctxMenu" IsEnabled="True">
-                    <MenuItem x:Name="ver" Header="Ver" Click="MenuItem_Click_1" IsEnabled="True">
-                        <MenuItem.Icon>
-                            <Image Source="image/eye_ico.png"></Image>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Abrir carpeta" Click="MenuItem_Click_2" IsEnabled="True">
-                        <MenuItem.Icon>
-                            <Image Source="image/mail.png"></Image>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Agregar informacion" Click="MenuItem_Click_3" IsEnabled="True">
-                        <MenuItem.Icon>
-                            <Image Source="image/info.png"></Image>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Editar informacion" Click="MenuItem_Click_4" IsEnabled="True">
-                        <MenuItem.Icon>
-                            <Image Source="image/editar.png"></Image>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Vista en arbol" Click="MenuItem_Click_5" IsEnabled="True">
-                        <MenuItem.Icon>
-                            <Image Source="lupa_icon/editar.png"></Image>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </TreeView.ContextMenu>
-        </TreeView>
-        <DataGrid x:Name="listAtts" AutoGenerateColumns="False" Visibility="Visible" Grid.Row="3" Background="#FFC5C5C5" Grid.ColumnSpan="5" Margin="18,0,594,10" ColumnWidth="auto" Width="auto" Height="60" VerticalAlignment="Bottom">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="No. Parte" Binding="{Binding no_parte}" />
-                <DataGridTextColumn Header="Lote" Binding="{Binding lote}" />
-                <DataGridTextColumn Header="Proyecto" Binding="{Binding proyecto}" />
-                <DataGridTextColumn Header="Revision" Binding="{Binding Revision}" />
-                <DataGridTextColumn Header="Fecha" Binding="{Binding fecha_e}" />
-                <DataGridTextColumn Header="Tipo de acero" Binding="{Binding tipo_acero}" />
-                <DataGridTextColumn Header="Materia prima" Binding="{Binding Materia_Prima}" />
-                <DataGridTextColumn Header="Acabado superficial" Binding="{Binding acabado_s}" />
-                <DataGridCheckBoxColumn Header="Corte" Binding="{Binding p_corte}"/>
-                <DataGridCheckBoxColumn Header="Doblez" Binding="{Binding p_doblez}"/>
-                <DataGridCheckBoxColumn Header="Maquinado" Binding="{Binding p_maquinado}"/>
-                <DataGridCheckBoxColumn Header="Pintura" Binding="{Binding p_pintura}"/>
-                <DataGridCheckBoxColumn Header="Detallado" Binding="{Binding p_detallado}"/>
-                <DataGridCheckBoxColumn Header="Soldadura" Binding="{Binding p_soldadura}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <ListView ToolTip="Contenido de la carpeta seleccionada" x:Name="listFilesNode" Visibility="Visible" SelectionMode="Single" Background="#FFC5C5C5" Margin="28,78,0,0" Grid.Row="2" HorizontalAlignment="Left" Width="182" RenderTransformOrigin="0.5,0.5" Height="62" VerticalAlignment="Top" Grid.RowSpan="2">
+        <GroupBox Header="" Grid.ColumnSpan="7" Margin="18,136,105,10" Grid.RowSpan="2" Grid.Row="3">
+            <Grid>
+                <DataGrid x:Name="listAtts" AutoGenerateColumns="False" Visibility="Visible" Background="#FFC5C5C5" Margin="16,46,428,0" Width="auto" Height="45" VerticalAlignment="Top" BorderBrush="Black">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Visibility="Hidden" Header="ID" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="No. Parte" Binding="{Binding no_parte}" />
+                        <DataGridTextColumn Header="Lote" Binding="{Binding lote}" />
+                        <DataGridTextColumn Header="Proyecto" Binding="{Binding proyecto}" />
+                        <DataGridTextColumn Header="Revision" Binding="{Binding Revision}" />
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding fecha_e}" />
+                        <DataGridTextColumn Header="Tipo de acero" Binding="{Binding tipo_acero}" />
+                        <DataGridTextColumn Header="Materia prima" Binding="{Binding Materia_Prima}" />
+                        <DataGridTextColumn Header="Acabado superficial" Binding="{Binding acabado_s}" />
+                        <DataGridCheckBoxColumn Header="Corte" Binding="{Binding p_corte}"/>
+                        <DataGridCheckBoxColumn Header="Doblez" Binding="{Binding p_doblez}"/>
+                        <DataGridCheckBoxColumn Header="Maquinado" Binding="{Binding p_maquinado}"/>
+                        <DataGridCheckBoxColumn Header="Pintura" Binding="{Binding p_pintura}"/>
+                        <DataGridCheckBoxColumn Header="Detallado" Binding="{Binding p_detallado}"/>
+                        <DataGridCheckBoxColumn Header="Soldadura" Binding="{Binding p_soldadura}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <ProgressBar x:Name="progressB" Margin="16,101,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="785" BorderBrush="Black" Foreground="#FF39C52D"/>
+                <CheckBox x:Name="chkArticulo" Content="Creación de Articulo" Margin="23,108,0,0" IsEnabled="False" HorizontalAlignment="Left" Width="133" Height="19" VerticalAlignment="Top"/>
+                <CheckBox x:Name="chkEstructura" Content="Estructura de Producto" Margin="186,109,0,0" IsEnabled="False" HorizontalAlignment="Left" Width="146" Height="18" VerticalAlignment="Top"/>
+                <CheckBox x:Name="chkProcesos" Content="Descrip. de Procesos" Margin="355,108,0,0" IsEnabled="False" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="136"/>
+                <CheckBox x:Name="chkModelado" Content="Modelado" Margin="546,108,0,0" IsEnabled="False" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"/>
+                <CheckBox x:Name="chkPublicacion" Content="Publicación"  IsEnabled="False" Margin="682,108,0,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Width="88"/>
+                <TextBox x:Name="txtParte"  HorizontalAlignment="Left" Style="{StaticResource RoundedTextBoxStyle}" ToolTip="Propiedades No.Parte" Margin="18,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="24" BorderBrush="Black" Background="#FFC5C5C5" KeyDown="txtParte_KeyDown"/>
+                <Button x:Name="btnParte" Style="{StaticResource RoundedButtonStyle}" Content="Buscar" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="24" Width="54" Background="White" BorderBrush="Black" Click="btnParte_Click"/>
+
+            </Grid>
+        </GroupBox>
+
+        <ListView ToolTip="Contenido de carpeta" x:Name="listFilesNode" Visibility="Visible" SelectionMode="Single" Background="#FFC5C5C5" Margin="26,51,0,0" Grid.Row="3" HorizontalAlignment="Left" Width="182" RenderTransformOrigin="0.5,0.5" Height="62" VerticalAlignment="Top" BorderBrush="Black">
             <ListView.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -311,34 +229,112 @@
                 </TransformGroup>
             </ListView.RenderTransform>
         </ListView>
-        <WebBrowser x:Name="wb" Margin="235,152,52,114" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="3"/>
-        <edrawing:EDrawingWPFControl Name="edrawingControl" Margin="221,135,0,101" HorizontalAlignment="Left" Width="1200" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="3"/>
-        <Rectangle Fill="#FF3E3939" Opacity="0.8" Height="58" VerticalAlignment="Top" Grid.ColumnSpan="6" Margin="0,1,0,0"/>
+        <WebBrowser x:Name="wb" Margin="235,152,52,114" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="4" Focusable="False"/>
+        <edrawing:EDrawingWPFControl x:Name="edrawingControl" Margin="221,135,0,101" HorizontalAlignment="Left" Width="1200" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="4"/>
+        <Rectangle Fill="#FFC5C5C5" Height="58" VerticalAlignment="Top" Grid.ColumnSpan="7" Margin="0,0,0,0"/>
 
-        <Image Width="101"  Source="/image/logo1rb.png" Margin="0,3,221,394" HorizontalAlignment="Right"/>
+        <Image Width="72"  Source="/image/logo1rb.png" Margin="5,0,0,0" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top"/>
         <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
-                Margin="159,9,0,0" Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="46" Foreground="{x:Null}" Grid.Column="5">
+                Margin="159,9,0,0" Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="46" Foreground="{x:Null}" Grid.Column="6">
             <Image Source="/image/user.png" Height="50" Width="36" StretchDirection="DownOnly"/>
         </Button>
-        <StackPanel x:Name="MenuItemsPanel" Visibility="Hidden" Margin="0,6,91,0" Width="NaN" VerticalAlignment="Top" Height="64" Grid.Column="5">
+        <StackPanel x:Name="MenuItemsPanel" Visibility="Hidden" Margin="0,6,91,0" Width="NaN" VerticalAlignment="Top" Height="64" Grid.Column="6">
             <Button Click="MenuClick" Content="Regresar" Background="White"/>
             <Button Click="LogOut" Content="Cerrar sesión" Background="White"/>
             <Button Click="ExitClick" Content="Salir" Background="White"/>
         </StackPanel>
         <TextBox x:Name="txtP" Visibility="Hidden" HorizontalAlignment="Left" Margin="85,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3" Grid.Column="1"/>
         <TextBox x:Name="txtFolder" Visibility="Hidden" HorizontalAlignment="Left" Margin="85,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" Height="17" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="1"/>
-        <ProgressBar x:Name="progressB" Margin="18,0,0,82" Height="31" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="801" Grid.Row="3" BorderBrush="#FF1F00FF" Grid.ColumnSpan="4" Foreground="#FF39C52D" Grid.RowSpan="2"/>
-        <CheckBox x:Name="chkArticulo" Content="Creación de Articulo" Margin="38,0,0,86" IsEnabled="False" HorizontalAlignment="Left" Width="133" Grid.Row="4" Height="19" VerticalAlignment="Bottom"/>
-        <CheckBox x:Name="chkEstructura" Content="Estructura de Producto" Margin="193,0,0,81" IsEnabled="False" HorizontalAlignment="Left" Width="147" Grid.Row="4" Height="23" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
-        <CheckBox x:Name="chkProcesos" Content="Descrip. de Procesos" Margin="0,0,569,86" IsEnabled="False" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="136" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"/>
-        <CheckBox x:Name="chkModelado" Content="Modelado" Margin="0,0,440,82" IsEnabled="False" Height="21" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Grid.Column="3" Grid.Row="4"/>
-        <CheckBox x:Name="chkPublicacion" Content="Publicación"  IsEnabled="False" Margin="0,0,306,86" Height="17" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="88" Grid.Column="3" Grid.Row="4"/>
-        <Button x:Name="btnExport" Grid.Column="5" Content="Exportar" Margin="151,0,10,25" Grid.Row="4" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="49" VerticalAlignment="Bottom" Click="exportButton_Click">
+        <Button x:Name="btnExport" Grid.Column="6" Content="Exportar" Margin="151,0,10,25" Grid.Row="4" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="49" VerticalAlignment="Bottom" Click="exportButton_Click">
             <Button.Background>
                 <ImageBrush ImageSource="/image/export (1).png"/>
             </Button.Background>
         </Button>
-        <ProgressBar x:Name="progressBar" Grid.Column="3" HorizontalAlignment="Left" Height="10" Margin="385,112,0,0" VerticalAlignment="Top" Width="218" Background="{x:Null}" BorderBrush="{x:Null}" Value="{Binding Progress}"/>
+        <ProgressBar x:Name="progressBar" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="62,112,0,0" VerticalAlignment="Top" Width="218" Background="{x:Null}" BorderBrush="{x:Null}" Value="{Binding Progress}"/>
+        <Separator HorizontalAlignment="Left" Margin="0,128,0,0" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="7" Height="16" Width="1920"/>
+        <GroupBox  FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Header="Resultados de busqueda" Grid.ColumnSpan="4" Margin="18,190,279,164" Grid.RowSpan="3" Grid.Row="1" BorderBrush="Black" Foreground="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="237*"/>
+                    <ColumnDefinition Width="244*"/>
+                </Grid.ColumnDefinitions>
+                <TreeView ToolTip="Resultados de Busqueda" x:Name="twSearched" SelectedItemChanged="twSearched_SelectedItemChanged" Background="#FFC5C5C5" Margin="10,10,10,10" BorderBrush="Black" Grid.ColumnSpan="2">
+                    <TreeView.ContextMenu>
+                        <ContextMenu x:Name="ctxMenu" IsEnabled="True">
+                            <MenuItem x:Name="Visualizar" Header="Visualizar" Click="MenuItem_Click_1" IsEnabled="True">
+                                <MenuItem.Icon>
+                                    <Image Source="/image/eye_ico.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Abrir ubicacion de archivo" Click="MenuItem_Click_2" IsEnabled="True">
+                                <MenuItem.Icon>
+                                    <Image Source="/image/mail.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Agregar informacion" Click="MenuItem_Click_3" IsEnabled="True">
+                                <MenuItem.Icon>
+                                    <Image Source="/image/info.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Editar informacion" Click="MenuItem_Click_4" IsEnabled="True">
+                                <MenuItem.Icon>
+                                    <Image Source="/image/editar.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Visualizar carpeta" Click="MenuItem_Click_5" IsEnabled="True">
+                                <MenuItem.Icon>
+                                    <Image Source="/image/eye_ico.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Archivos" Grid.ColumnSpan="4" Margin="14,80,283,29" Grid.RowSpan="2" BorderBrush="Black" FontSize="14" Foreground="White" FontFamily="Arial Rounded MT Bold">
+            <Grid Height="513">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="430*"/>
+                    <ColumnDefinition Width="51*"/>
+                </Grid.ColumnDefinitions>
+                <Button Click="reloadTreeView_click" Height="34" Width="31" ToolTip="Carpeta Inicial" Margin="46,10,353,469">
+                    <Image Source="image/home.png" Width="25" Height="24" RenderTransformOrigin="0.5,0.5"/>
+                </Button>
+                <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta" Margin="10,10,389,0" VerticalAlignment="Top">
+                    <Image Source="image/back.png" Width="25" Height="23" RenderTransformOrigin="0.5,0.5"/>
+                </Button>
+                <TreeView x:Name="fileDisplay" MouseLeftButtonUp="fileDisplay_MouseLeftButtonDown" PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" Background="#FFC5C5C5" Margin="10,49,10,0" BorderBrush="Black" Grid.ColumnSpan="2">
+                    <TreeView.Resources>
+                        <ContextMenu x:Key="TreeViewContextMenu" x:Name="TreeViewContextMenu">
+                            <MenuItem Header="Open" Click="MenuItem_Click"/>
+                        </ContextMenu>
+                    </TreeView.Resources>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding children}">
+                            <RadioButton x:Name="chkb" Click="chk_clicked" IsChecked="{Binding isChecked}" Cursor="Hand">
+                                <RadioButton.Template>
+                                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                                        <StackPanel x:Name="myStack" HorizontalAlignment="Left" Orientation="Horizontal" Background="#FFC5C5C5">
+                                            <Image Source="{Binding iconLoc}" Width="18"/>
+                                            <Label x:Name="lbl" Content="{Binding name}"/>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="myStack" Property="Background" Value="#FF03CBFF"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter TargetName="myStack" Property="Background" Value="#FFC5C5C5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </RadioButton.Template>
+                            </RadioButton>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+        </GroupBox>
+        <Image x:Name="displayImage" HorizontalAlignment="Left" Height="40" Margin="117,10,0,0" VerticalAlignment="Top" Width="84"/>
 
     </Grid>
 </Window>

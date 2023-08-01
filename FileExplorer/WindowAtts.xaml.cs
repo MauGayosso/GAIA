@@ -1,9 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using System;
 using System.Data.OleDb;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -26,7 +24,17 @@ namespace FileExplorer
 
 		public void Button_Click(object sender, RoutedEventArgs e)
 		{
-			addDat();
+			if (!String.IsNullOrEmpty(txtF.Text) && !String.IsNullOrEmpty(txtParte.Text) && !String.IsNullOrEmpty(txtRev.Text) && !String.IsNullOrEmpty(cmbMP.Text) || !String.IsNullOrEmpty(txtLote.Text)
+				&& !String.IsNullOrEmpty(txtProyecto.Text) && !String.IsNullOrEmpty(cmbAS.Text) && !String.IsNullOrEmpty(dpPick.ToString()) && !String.IsNullOrEmpty(cmbAcero.Text))
+			{
+				save.IsEnabled = true;
+				addDat();
+			}
+			else
+			{
+				save.IsEnabled = false;
+				MessageBox.Show("Campos vacios","Error");
+			}
 		}
 
 		public void loadName(string name)
@@ -35,7 +43,6 @@ namespace FileExplorer
 		}
 		public void LoadImage(string PathI)
 		{
-			Debug.WriteLine("Path Image: " + PathI);
 			if (!string.IsNullOrEmpty(PathI))
 			{
 				//displayImage.Source = new BitmapImage(new Uri(PathI));
@@ -63,7 +70,7 @@ namespace FileExplorer
 			bool estrutura = (bool)chkEstructura.IsChecked;
 			bool proceso = (bool)chkProcesos.IsChecked;
 			bool publi = (bool)chkPublicacion.IsChecked;
-			bool modelado =(bool)chkModelado.IsChecked;
+			bool modelado = (bool)chkModelado.IsChecked;
 			string query =
 				"INSERT INTO atts (Id_file, no_parte, revision, materia_prima, lote, proyecto, acabado_superficial, fecha_ed, tipo_acero, p_corte, p_doblez, p_maquinado, p_pintura, p_detallado, p_soldadura, creacion_articulo, estructura_product, desc_proceso, modelado, publicacion) " +
 				"VALUES (@Id_files, @no_partes, @revisions, @materia_primas, @lotes, @proyectos, @acabado_superficials, @fecha_eds, " +
@@ -79,27 +86,27 @@ namespace FileExplorer
 					command.Parameters.AddWithValue("@Id_files", id);
 					command.Parameters.AddWithValue("@no_partes", n_parte);
 					command.Parameters.AddWithValue("@revisions", revi);
-					command.Parameters.AddWithValue("@materia_primas", matp );
-					command.Parameters.AddWithValue("@lotes",lot);
-					command.Parameters.AddWithValue("@proyectos",project );
-					command.Parameters.AddWithValue("@acabado_superficials",acabado);
+					command.Parameters.AddWithValue("@materia_primas", matp);
+					command.Parameters.AddWithValue("@lotes", lot);
+					command.Parameters.AddWithValue("@proyectos", project);
+					command.Parameters.AddWithValue("@acabado_superficials", acabado);
 					command.Parameters.AddWithValue("@fecha_eds", fecha);
 					command.Parameters.AddWithValue("@tipo_aceros", tipoA);
 					command.Parameters.AddWithValue("@p_cortes", corte);
-					command.Parameters.AddWithValue("@p_doblezs", doblez );
-					command.Parameters.AddWithValue("@p_maquinados",maquinado );
-					command.Parameters.AddWithValue("@p_pinturas", pintura );
-					command.Parameters.AddWithValue("@p_detallados",detallado );
-					command.Parameters.AddWithValue("@p_soldaduras",soldadura );
-					command.Parameters.AddWithValue("@creacion_articulos",articulo );
+					command.Parameters.AddWithValue("@p_doblezs", doblez);
+					command.Parameters.AddWithValue("@p_maquinados", maquinado);
+					command.Parameters.AddWithValue("@p_pinturas", pintura);
+					command.Parameters.AddWithValue("@p_detallados", detallado);
+					command.Parameters.AddWithValue("@p_soldaduras", soldadura);
+					command.Parameters.AddWithValue("@creacion_articulos", articulo);
 					command.Parameters.AddWithValue("@estructura_products", estrutura);
 					command.Parameters.AddWithValue("@desc_procesos", proceso);
-					command.Parameters.AddWithValue("@modelados",modelado );
-					command.Parameters.AddWithValue("@publicacions", publi );
+					command.Parameters.AddWithValue("@modelados", modelado);
+					command.Parameters.AddWithValue("@publicacions", publi);
 					// Execute the query
 					command.ExecuteNonQuery();
 
-					MessageBox.Show("Data inserted successfully!");
+					MessageBox.Show("Se agrego correctamente la informacion");
 				}
 			}
 		}
@@ -115,7 +122,7 @@ namespace FileExplorer
 
 		private void chkArticulo_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if(chkArticulo.IsChecked == false)
+			if (chkArticulo.IsChecked == false)
 			{
 				chkEstructura.IsEnabled = false;
 				chkEstructura.IsChecked = false;
@@ -154,7 +161,7 @@ namespace FileExplorer
 
 		private void chkProcesos_Checked(object sender, RoutedEventArgs e)
 		{
-			if(chkProcesos.IsChecked == true)
+			if (chkProcesos.IsChecked == true)
 			{
 				chkModelado.IsEnabled = true;
 				progressB.Value += 20;
@@ -169,13 +176,13 @@ namespace FileExplorer
 				chkModelado.IsChecked = false;
 				chkPublicacion.IsChecked = false;
 				chkPublicacion.IsEnabled = false;
-				progressB.Value = 60 ;
+				progressB.Value = 60;
 			}
 		}
 
 		private void chkModelado_Checked(object sender, RoutedEventArgs e)
 		{
-			if(chkModelado.IsChecked == true)
+			if (chkModelado.IsChecked == true)
 			{
 				chkPublicacion.IsEnabled = true;
 				progressB.Value += 20;
@@ -184,7 +191,8 @@ namespace FileExplorer
 
 		private void chkModelado_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if(chkModelado.IsChecked == false){
+			if (chkModelado.IsChecked == false)
+			{
 				chkPublicacion.IsChecked = false;
 				chkPublicacion.IsEnabled = false;
 				progressB.Value = 80;
@@ -193,7 +201,7 @@ namespace FileExplorer
 
 		private void chkPublicacion_Checked(object sender, RoutedEventArgs e)
 		{
-			if(chkPublicacion.IsChecked == true)
+			if (chkPublicacion.IsChecked == true)
 			{
 				progressB.Value += 20;
 			}

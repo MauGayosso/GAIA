@@ -111,7 +111,7 @@
         </DockPanel>
         <WebBrowser x:Name="wb" Margin="475,127,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="836" Height="531" VerticalAlignment="Top"/>
         <notifications:NotificationArea x:Name="WindowArea" Position="BottomLeft"  MaxItems="1" Margin="10,362,-2,26" Grid.Row="1"/>
-        <Rectangle HorizontalAlignment="Right" Height="70" VerticalAlignment="Top" Width="1916" Fill="#FF3E3939" Opacity="0.4" Margin="0,0,0,0"/>
+        <Rectangle HorizontalAlignment="Right" Height="70" VerticalAlignment="Top" Width="1353" Fill="#FF3E3939" Opacity="0.4" Margin="0,0,0,0"/>
         <Image HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="90" Source="/image/logo1rb.png" Grid.Column="3" Grid.ColumnSpan="2" Margin="9,0,0,0"/>
         <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
                 Margin="1279,10,0,0" Width="64" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="54" Foreground="{x:Null}">
