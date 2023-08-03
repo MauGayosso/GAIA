@@ -27,6 +27,11 @@
         </Button>
         <Image HorizontalAlignment="Left" Height="74" Margin="10,10,0,0" VerticalAlignment="Top" Width="112" Source="/image/logo1.png" Stretch="Fill"/>
         <Label Content="Clientes" HorizontalAlignment="Center" Margin="0,114,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" FontSize="22" Foreground="White"/>
+        <Button x:Name="btnReload" Content="Button" HorizontalAlignment="Left" Margin="182,0,0,0" VerticalAlignment="Center" Width="19" Height="19" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="btnReload_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/image/reload.png"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

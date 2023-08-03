@@ -5,13 +5,18 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Button = System.Windows.Controls.Button;
 using CheckBox = System.Windows.Controls.CheckBox;
 using Cursors = System.Windows.Input.Cursors;
 using Exception = System.Exception;
@@ -19,7 +24,7 @@ using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using Path = System.IO.Path;
 using Window = System.Windows.Window;
-
+using RadioButton = System.Windows.Controls.RadioButton;
 namespace FileExplorer
 
 {
@@ -31,12 +36,14 @@ namespace FileExplorer
 	public partial class MainWindow2 : Window
 	{
 		public string SelectedOption { get; set; }
+		public string SelectedOption2 { get; set; }
+		private RadioButton lastCheckedRadioButton = null;
+		public string nod;
 		public string currentD;
 		List<string> itemsp = new List<string>();
 		List<string> itemsf = new List<string>();
 		public ObservableCollection<ItemAtts> ItemsAtts { get; set; }
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb";
-		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		List<string> listaAtts = new List<string>();
 		private EDrawingWPFControl eDrawingView;
 		private delegate Node ParseDirDelegate();
@@ -96,8 +103,21 @@ namespace FileExplorer
 
 		public void LoadPathFile()
 		{
-			//parseDir = "D:/ING";
+			//parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Diseños/" + SelectedOption + "/";
 			parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ING/" + SelectedOption + "/";
+		}
+		public void LoadImage(string path)
+		{
+			try
+			{
+				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/" + path));
+
+			}
+			catch
+			{
+				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
+			}
+
 		}
 		private void createFirstNode()
 		{
@@ -181,13 +201,27 @@ namespace FileExplorer
 				ParseNewDir();
 			}
 		}
+		private T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+		{
+			var parentObject = VisualTreeHelper.GetParent(child);
+			if (parentObject == null)
+				return null;
+			if (parentObject is T parent)
+				return parent;
+			else
+				return FindVisualParent<T>(parentObject);
+		}
 		private void chk_clicked(object sender, RoutedEventArgs e)
 		{
+			nod = null;
+			var nodeS = Node.selectedBytes;
+			Debug.WriteLine("nodeS : " + nodeS);
+			nod = nodeS;
 			progressB.Value = 0;
 			ItemsAtts.Clear();
 			listaAtts.Clear();
 			listAtts.ItemsSource = null;
-			if (Path.GetExtension(Node.selectedBytes).Equals(".pdf") || Path.GetExtension(Node.selectedBytes).Equals(".plt") || Path.GetExtension(Node.selectedBytes).Equals(".xlsx"))
+			if (Path.GetExtension(nodeS).Equals(".pdf", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".plt", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".xlsx", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".TIF", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".tiff", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".bak", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".jpeg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".jpg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".png", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".db", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".docx", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(nodeS).Equals(".pptx", StringComparison.OrdinalIgnoreCase))
 			{
 				measureB.IsEnabled = false;
 				sB.Visibility = Visibility.Collapsed;
@@ -199,18 +233,28 @@ namespace FileExplorer
 				sB.Visibility = Visibility.Visible;
 				measureB.Visibility = Visibility.Visible;
 			}
-			CheckBox checkBox = (CheckBox)sender;
-			if (checkBox.Template.FindName("lbl", checkBox) is Label label)
+			RadioButton radioButton = (RadioButton)sender;
+			if (radioButton.Template.FindName("lbl", radioButton) is Label label)
 			{
-				//stck.Background = new SolidColorBrush(Colors.Blue);
 				string labelText = label.Content.ToString();
-
 				txtFolder.Text = labelText;
 				attributesFiles(labelText);
 				addGridAtts();
+				ContentPath(nodeS);
 			}
-			ContentPath(Node.selectedBytes);
+			if (radioButton.Template.FindName("lbl", radioButton) is Label label2)
+			{
+				if (radioButton.IsChecked == true && radioButton != lastCheckedRadioButton)
+				{
+					if (lastCheckedRadioButton != null)
+					{
+						lastCheckedRadioButton.IsChecked = false;
+					}
+					lastCheckedRadioButton = radioButton;
+				}
+			}
 		}
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			using (var fbd = new FolderBrowserDialog())
@@ -267,6 +311,7 @@ namespace FileExplorer
 		{
 			Mouse.OverrideCursor = Cursors.Wait;
 			string directoryPath = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ING/" + SelectedOption + "/";
+			//string directoryPath = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Diseños/" + SelectedOption + " /";
 			string[] files = Directory.GetFiles(directoryPath, "*" + searchItem + "*" + ".*", SearchOption.AllDirectories);
 			string[] directories = Directory.GetDirectories(directoryPath, "*" + searchItem + "*", SearchOption.AllDirectories);
 			int totalItems = files.Length + directories.Length;
@@ -281,7 +326,6 @@ namespace FileExplorer
 				string fileName = Path.GetFileName(file);
 				twSearched.Items.Add(fileName);
 				itemsp.Add(file);
-
 				processedItems++;
 				UpdateProgress(processedItems, totalItems);
 			}
@@ -294,7 +338,6 @@ namespace FileExplorer
 				UpdateProgress(processedItems, totalItems);
 			}
 		}
-
 		private void UpdateProgress(int processedItems, int totalItems)
 		{
 			progressBar.Visibility = Visibility.Visible;
@@ -312,7 +355,6 @@ namespace FileExplorer
 			{
 				MenuItemsPanel.Visibility = Visibility.Visible;
 			}
-
 		}
 		private void MenuClick(object sender, RoutedEventArgs e)
 		{
@@ -324,31 +366,31 @@ namespace FileExplorer
 		{
 			Close();
 		}
-
 		private void LogOut(object sender, RoutedEventArgs e)
 		{
 			WindowLogin win = new WindowLogin();
 			win.Show();
 			Close();
 		}
-
 		private void Open_Click(object sender, RoutedEventArgs e)
 		{
-			toolbarOption(Node.selectedBytes);
+			var p = Path.GetFullPath(nod);
+			Debug.WriteLine("p: " + p);
+			toolbarOption(p);
 		}
-
 		private void toolbarOption(string path)
 		{
+			Debug.WriteLine("ToolBar: " + path);
 			if (path == null)
 			{
 				MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
 			}
 			else
 			{
 				if (Path.GetExtension(path).Equals(".PDF", StringComparison.OrdinalIgnoreCase))
 				{
 					edrawingControl.Visibility = Visibility.Hidden;
+					imageTIF.Visibility = Visibility.Hidden;
 					wb.Visibility = Visibility.Visible;
 					var pathPdf = Path.GetFullPath(path);
 					Uri pdfUri = new Uri(pathPdf);
@@ -362,10 +404,25 @@ namespace FileExplorer
 				else if (Path.GetExtension(path).Equals(".SLDPRT", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".dxf", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".STEP", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".STL", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".OBJ", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".SLDASM", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".dwg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".stp", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".SLDDRW", StringComparison.OrdinalIgnoreCase))
 				{
 					wb.Visibility = Visibility.Hidden;
+					imageTIF.Visibility = Visibility.Hidden;
 					edrawingControl.Visibility = Visibility.Visible;
 					eDrawingView = edrawingControl;
-					var testModel = Path.GetFullPath(Node.selectedBytes);
+					var testModel = Path.GetFullPath(path);
 					eDrawingView.EDrawingHost.OpenDoc(testModel, false, false, false);
+				}
+				else if (Path.GetExtension(path).Equals(".tiff", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".jpg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".jpeg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".tif", StringComparison.OrdinalIgnoreCase))
+				{
+					try
+					{
+						wb.Visibility = Visibility.Hidden;
+						edrawingControl.Visibility = Visibility.Hidden;
+						imageTIF.Visibility = Visibility.Visible;
+						imageTIF.Source = new BitmapImage(new Uri(path));
+					}
+					catch
+					{
+						imageTIF.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
+					}
 				}
 			}
 		}
@@ -409,13 +466,13 @@ namespace FileExplorer
 		}
 		private void folder_click(object sender, RoutedEventArgs e)
 		{
-			if (Node.selectedBytes == null)
+			if (nod == null)
 			{
 				MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else
 			{
-				Process.Start("explorer.exe", Path.GetDirectoryName(Node.selectedBytes));
+				Process.Start("explorer.exe", Path.GetDirectoryName(nod));
 			}
 		}
 		private void reloadTreeView_click(object sender, RoutedEventArgs e)
@@ -594,15 +651,12 @@ namespace FileExplorer
 				listAtts.ItemsSource = ItemsAtts;
 			}
 		}
-
 		private void ContentPathTW(string folderp)
 		{
 			listFilesNode.Items.Clear();
-			Debug.WriteLine("folderP : " + folderp);
 			string[] directories = Directory.GetDirectories(folderp);
 			foreach (string directory in directories)
 			{
-				Debug.WriteLine("dName : " + Path.GetDirectoryName(directory));
 				listFilesNode.Items.Add("Carpeta: " + Path.GetFileName(directory));
 			}
 		}
@@ -610,7 +664,6 @@ namespace FileExplorer
 		{
 			string parentPath = Directory.GetParent(folderp)?.FullName;
 			listFilesNode.Items.Clear();
-			//var pathF = Path.GetDirectoryName(folderp);
 			var p = Node.selectedBytes;
 			if (p is null)
 			{
@@ -628,10 +681,8 @@ namespace FileExplorer
 					{
 						listFilesNode.Items.Add("Carpeta: " + directory.Replace(Path.GetDirectoryName(directory) + Path.DirectorySeparatorChar, ""));
 					}
-					Debug.WriteLine(newP);
 				}
 			}
-
 		}
 		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
 		{
@@ -667,9 +718,7 @@ namespace FileExplorer
 					if (measureB.Visibility == Visibility.Collapsed)
 					{
 						sB.Visibility = Visibility.Visible;
-
 						measureB.Visibility = Visibility.Visible;
-
 					}
 					wb.Visibility = Visibility.Hidden;
 					edrawingControl.Visibility = Visibility.Visible;
@@ -677,22 +726,37 @@ namespace FileExplorer
 					var testModel = Path.GetFullPath(path);
 					eDrawingView.EDrawingHost.OpenDoc(testModel, false, false, false);
 				}
+				else if (Path.GetExtension(path).Equals(".tiff", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".jpg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+				{
+					try
+					{
+						wb.Visibility = Visibility.Hidden;
+						edrawingControl.Visibility = Visibility.Hidden;
+						imageTIF.Visibility = Visibility.Visible;
+						imageTIF.Source = new BitmapImage(new Uri(nod));
+					}
+					catch
+					{
+						imageTIF.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
+					}
+				}
 			}
 		}
+
 		private void MenuItem_Click_2(object sender, RoutedEventArgs e)
 		{
-			var path = twSearched.SelectedItem.ToString();
-			var pathF = txtP.Text;
-			/*if (path == null)
+			var textP = txtP.Text;
+			string fullF = itemsp.Find(item => item.Contains(txtP.Text));
+			var path = fullF;
+			if (path == null)
 			{
 				MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else
 			{
 				Process.Start("explorer.exe", Path.GetDirectoryName(path));
-			}*/
+			}
 		}
-
 		private void MenuItem_Click_3(object sender, RoutedEventArgs e)
 		{
 			if (twSearched.SelectedItem != null)
@@ -756,7 +820,13 @@ namespace FileExplorer
 			var textP = txtP.Text;
 			string fullF = itemsp.Find(item => item.Contains(txtP.Text));
 			string fullP = itemsf.Find(item => item.Contains(txtP.Text));
-			ContentPathTW(fullP);
+			if (fullP != null)
+			{
+				ContentPathTW(fullP);
+			}
+			else
+			{
+			}
 			if (Path.GetExtension(textP).Length > 1)
 			{
 				ver.IsEnabled = true;
@@ -836,7 +906,6 @@ namespace FileExplorer
 				}
 			}
 		}
-
 		private void btnParte_Click(object sender, RoutedEventArgs e)
 		{
 			try
@@ -879,6 +948,24 @@ namespace FileExplorer
 				finally
 				{
 					Mouse.OverrideCursor = null;
+				}
+			}
+		}
+		private void fileDisplay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.Source is TreeViewItem treeViewItem)
+			{
+				treeViewItem.IsExpanded = !treeViewItem.IsExpanded;
+			}
+		}
+		private void fileDisplay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.OriginalSource is FrameworkElement sourceElement && sourceElement.DataContext is TreeViewItem item)
+			{
+				if (!item.IsExpanded)
+				{
+					item.IsExpanded = true;
+					e.Handled = true;
 				}
 			}
 		}

@@ -20,10 +20,14 @@ namespace FileExplorer
 		//
 		public void LoadImage(string PathI)
 		{
-			if (!string.IsNullOrEmpty(PathI))
+			try
 			{
-				//displayImage.Source = new BitmapImage(new Uri(PathI));
 				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/" + PathI));
+
+			}
+			catch
+			{
+				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
 			}
 		}
 		public WindowEdit()

@@ -12,16 +12,13 @@ namespace FileExplorer
 	/// </summary>
 	public partial class WindowAtts : Window
 	{
-		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb;";
-
 		public string pathPass;
 		public WindowAtts()
 		{
 			InitializeComponent();
 			loadName(pathPass);
 		}
-
 		public void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (!String.IsNullOrEmpty(txtF.Text) && !String.IsNullOrEmpty(txtParte.Text) && !String.IsNullOrEmpty(txtRev.Text) && !String.IsNullOrEmpty(cmbMP.Text) || !String.IsNullOrEmpty(txtLote.Text)
@@ -33,20 +30,22 @@ namespace FileExplorer
 			else
 			{
 				save.IsEnabled = false;
-				MessageBox.Show("Campos vacios","Error");
+				MessageBox.Show("Campos vacios", "Error");
 			}
 		}
-
 		public void loadName(string name)
 		{
 			txtF.Text = name;
 		}
 		public void LoadImage(string PathI)
 		{
-			if (!string.IsNullOrEmpty(PathI))
+			try
 			{
-				//displayImage.Source = new BitmapImage(new Uri(PathI));
 				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/" + PathI));
+			}
+			catch
+			{
+				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
 			}
 		}
 		public void addDat()
@@ -76,7 +75,6 @@ namespace FileExplorer
 				"VALUES (@Id_files, @no_partes, @revisions, @materia_primas, @lotes, @proyectos, @acabado_superficials, @fecha_eds, " +
 				"@tipo_aceros, @p_cortes, @p_doblezs, @p_maquinados, @p_pinturas, @p_detallados, @p_soldaduras, @creacion_articulos, " +
 				"@estructura_products, @desc_procesos, @modelados, @publicacions)";
-
 			using (OleDbConnection connection = new OleDbConnection(connectionString))
 			{
 				connection.Open();
@@ -103,14 +101,11 @@ namespace FileExplorer
 					command.Parameters.AddWithValue("@desc_procesos", proceso);
 					command.Parameters.AddWithValue("@modelados", modelado);
 					command.Parameters.AddWithValue("@publicacions", publi);
-					// Execute the query
 					command.ExecuteNonQuery();
-
 					MessageBox.Show("Se agrego correctamente la informacion");
 				}
 			}
 		}
-
 		private void chkArticulo_Checked(object sender, RoutedEventArgs e)
 		{
 			if (chkArticulo.IsChecked == true)
@@ -119,7 +114,6 @@ namespace FileExplorer
 				progressB.Value += 20;
 			}
 		}
-
 		private void chkArticulo_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (chkArticulo.IsChecked == false)
@@ -135,7 +129,6 @@ namespace FileExplorer
 				progressB.Value -= progressB.Maximum;
 			}
 		}
-
 		private void chkEstructura_Checked(object sender, RoutedEventArgs e)
 		{
 			if (chkArticulo.IsChecked == true)
@@ -144,7 +137,6 @@ namespace FileExplorer
 				progressB.Value += 20;
 			}
 		}
-
 		private void chkEstructura_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (chkEstructura.IsChecked == false)
@@ -158,7 +150,6 @@ namespace FileExplorer
 				progressB.Value = 40;
 			}
 		}
-
 		private void chkProcesos_Checked(object sender, RoutedEventArgs e)
 		{
 			if (chkProcesos.IsChecked == true)
@@ -167,7 +158,6 @@ namespace FileExplorer
 				progressB.Value += 20;
 			}
 		}
-
 		private void chkProcesos_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (chkProcesos.IsChecked == false)
@@ -179,7 +169,6 @@ namespace FileExplorer
 				progressB.Value = 60;
 			}
 		}
-
 		private void chkModelado_Checked(object sender, RoutedEventArgs e)
 		{
 			if (chkModelado.IsChecked == true)
@@ -188,7 +177,6 @@ namespace FileExplorer
 				progressB.Value += 20;
 			}
 		}
-
 		private void chkModelado_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (chkModelado.IsChecked == false)
@@ -198,7 +186,6 @@ namespace FileExplorer
 				progressB.Value = 80;
 			}
 		}
-
 		private void chkPublicacion_Checked(object sender, RoutedEventArgs e)
 		{
 			if (chkPublicacion.IsChecked == true)
@@ -206,7 +193,6 @@ namespace FileExplorer
 				progressB.Value += 20;
 			}
 		}
-
 		private void chkPublicacion_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (chkPublicacion.IsChecked == false)

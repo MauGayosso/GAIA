@@ -148,7 +148,6 @@ namespace FileExplorer
 		 }*/
 		public void LoadPathFile()
 		{
-			//parseDirCorte = "D:/ARCHIVOS DE AYUDAS VISUALES";
 			parseDirCorte = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ARCHIVOS DE AYUDAS VISUALES/";
 		}
 		private void createFirstNode()

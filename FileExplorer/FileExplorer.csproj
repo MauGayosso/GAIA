@@ -506,9 +506,11 @@
     <Resource Include="image\info.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="image\reload.png" />
     <Resource Include="image\administrate.png" />
     <Content Include="image\btnQ.png" />
     <Content Include="image\btnQuery.png" />
+    <Resource Include="image\edit.png" />
     <Content Include="image\q.png" />
     <Resource Include="image\search.png" />
     <Resource Include="image\home.png" />

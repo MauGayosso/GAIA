@@ -21,15 +21,14 @@ namespace FileExplorer
 		public ObservableCollection<ItemDataUsers> ItemsUsers { get; set; }
 		public ObservableCollection<ItemDataTip> ItemTips { get; set; }
 
-		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb;";
 
 		Dictionary<string, string> clients = new Dictionary<string, string>();
 		Dictionary<string, string> usuarios = new Dictionary<string, string>();
 		Dictionary<string, string> tips = new Dictionary<string, string>();
 		List<Tuple<string, string, string>> usuariosL = new List<Tuple<string, string, string>>();
-
 		public Tuple<string, string, string> tupleUsers { get; set; }
+
 		public WindowAdmin()
 		{
 			InitializeComponent();
@@ -39,7 +38,6 @@ namespace FileExplorer
 			addItemsClientes();
 			addItemUsers();
 			addItemsTips();
-			// Load Grid with info
 			addToGridUsers();
 			addToGridClient();
 			addToGridTips();
@@ -65,7 +63,6 @@ namespace FileExplorer
 			{
 				ItemsUsers.Add(new ItemDataUsers { Name = user.Item1, Password = user.Item2, Rol = user.Item3, EditCommand = new RelayCommand(EditItemUser), DeleteCommand = new RelayCommand(DeleteItemUsers) }); ;
 			}
-
 			dynamicTableUsers.ItemsSource = ItemsUsers;
 		}
 		private void addToGridClient()
@@ -84,7 +81,6 @@ namespace FileExplorer
 				connection.Open();
 				OleDbCommand command = new OleDbCommand(query, connection);
 				command.ExecuteNonQuery();
-
 				OleDbDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
@@ -103,17 +99,11 @@ namespace FileExplorer
 				connection.Open();
 				OleDbCommand command = new OleDbCommand(query, connection);
 				command.ExecuteNonQuery();
-
 				OleDbDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
-					//usuariosL.Add(reader.GetValue(0).ToString());
-					//usuariosL.Add(reader.GetValue(1).ToString());
-					//usuariosL.Add(reader.GetValue(2).ToString());
-					//tupleUsers = Tuple.Create(reader.GetValue(0).ToString(), reader.GetValue(1).ToString(), reader.GetValue(2).ToString());
 					tupleUsers = Tuple.Create(reader.GetValue(0).ToString(), reader.GetValue(1).ToString(), reader.GetValue(2).ToString());
 					usuariosL.Add(tupleUsers);
-					//usuarios.Add(reader.GetValue(0).ToString(), reader.GetValue(1).ToString());
 				}
 				reader.Close();
 				connection.Close();
@@ -128,7 +118,6 @@ namespace FileExplorer
 				connection.Open();
 				OleDbCommand command = new OleDbCommand(query, connection);
 				command.ExecuteNonQuery();
-
 				OleDbDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
@@ -140,13 +129,11 @@ namespace FileExplorer
 		}
 
 		private void UpdateCiente(string id)
-		{
-		}
+		{ }
+
 		private void EditItem(object item)
 		{
-			// Handle edit command here
 			ItemData selectedItem = (ItemData)item;
-			//MessageBox.Show("Edit " + selectedItem.Name + "+ " + selectedItem.PathClient);
 			txtEditCliente.Text = selectedItem.Name;
 			txtEditPathClient.Text = selectedItem.PathClient;
 			if (editClientCanva.Visibility == Visibility.Hidden)
@@ -155,13 +142,8 @@ namespace FileExplorer
 			}
 		}
 
-		// EDIT BUTTON TIP 
 		private void EditItemTip()
-		{
-
-		}
-
-		//EDIT BUTTON USER
+		{ }
 
 		private void EditItemUser(object item)
 		{
@@ -175,20 +157,16 @@ namespace FileExplorer
 			}
 		}
 
-		// DELETE BUTTON TO CLIENTS
 		private void DeleteItem(object item)
 		{
-			// Handle delete command here
 			ItemData selectedItem = (ItemData)item;
 			MessageBoxResult result = MessageBox.Show("¿Estas seguro de eliminar el cliente : " + selectedItem.Name + "?", "Eliminar", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.OK)
 			{
 				string query = "DELETE FROM clientes WHERE id_usuario = ?";
-
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
-
 					using (OleDbCommand command = new OleDbCommand(query, connection))
 					{
 						command.Parameters.AddWithValue("@id_usuario", selectedItem.Name);
@@ -203,21 +181,16 @@ namespace FileExplorer
 			}
 		}
 
-
-		// DELETE BUTTON TO USERS
 		private void DeleteItemUsers(object itemUsers)
 		{
-			// Handle delete command here
 			ItemDataUsers selectedItem = (ItemDataUsers)itemUsers;
 			MessageBoxResult result = MessageBox.Show("¿Estas seguro de eliminar el cliente : " + selectedItem.Name + "?", "Eliminar", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 			if (result == MessageBoxResult.OK)
 			{
 				string query = "DELETE FROM usuarios WHERE id_usuario = ?";
-
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
-
 					using (OleDbCommand command = new OleDbCommand(query, connection))
 					{
 						command.Parameters.AddWithValue("@id_usuario", selectedItem.Name);
@@ -232,12 +205,8 @@ namespace FileExplorer
 			}
 		}
 
-		// DELETE BUTTON TO TIPS
-
 		private void DeleteItemTip()
-		{
-
-		}
+		{ }
 
 		private void HamburgerButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -249,8 +218,8 @@ namespace FileExplorer
 			{
 				MenuItemsPanel.Visibility = Visibility.Visible;
 			}
-
 		}
+
 		private void MenuClick(object sender, RoutedEventArgs e)
 		{
 			WindowOptions win = new WindowOptions();
@@ -268,7 +237,6 @@ namespace FileExplorer
 
 		}
 
-		//BUTTON RELOAD CLIENTS PAGE
 		private void btnReload_Click(object sender, RoutedEventArgs e)
 		{
 			clients.Clear();
@@ -278,7 +246,6 @@ namespace FileExplorer
 			addToGridClient();
 		}
 
-		//BUTTON RELOAD USERS PAGE
 		private void btnReloadUsers_Click_1(object sender, RoutedEventArgs e)
 		{
 			usuarios.Clear();
@@ -294,14 +261,11 @@ namespace FileExplorer
 			using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
 			{
 				DialogResult result = folderBrowserDialog.ShowDialog();
-
 				if (result == System.Windows.Forms.DialogResult.OK)
 				{
-					// Get the selected folder path from the dialog
 					string folderPath = folderBrowserDialog.SelectedPath;
 					txtPath.Text = folderPath;
 				}
-
 			}
 		}
 
@@ -318,7 +282,6 @@ namespace FileExplorer
 			else
 			{
 				var query = "insert into clientes (id_usuario,path_cliente) values (@id_usuario,@path_cliente)";
-
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
@@ -368,7 +331,6 @@ namespace FileExplorer
 			else
 			{
 				string query = "INSERT INTO [usuarios] ([id_usuario], [password], [rol_user]) VALUES (@id,@pass,@rol_u)";
-
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
@@ -410,14 +372,11 @@ namespace FileExplorer
 			using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
 			{
 				DialogResult result = folderBrowserDialog.ShowDialog();
-
 				if (result == System.Windows.Forms.DialogResult.OK)
 				{
-					// Get the selected folder path from the dialog
 					string folderPath = folderBrowserDialog.SelectedPath;
 					txtEditPathClient.Text = folderPath;
 				}
-
 			}
 		}
 
@@ -430,11 +389,9 @@ namespace FileExplorer
 			else
 			{
 				string query = "UPDATE clientes SET id_usuario = ?, path_cliente = ? WHERE id_usuario = @value1";
-
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
-
 					using (OleDbCommand command = new OleDbCommand(query, connection))
 					{
 						command.Parameters.AddWithValue("@id_usuario", txtNewNameCliente.Text);
@@ -479,14 +436,12 @@ namespace FileExplorer
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
-
 					using (OleDbCommand command = new OleDbCommand(query, connection))
 					{
 						command.Parameters.AddWithValue("@id_usuario", newuser);
 						command.Parameters.AddWithValue("@password", passu);
 						command.Parameters.AddWithValue("@rol_user", rolu);
 						command.Parameters.AddWithValue("value1", olduser);
-
 						int rows = command.ExecuteNonQuery();
 						if (rows > 0)
 						{
@@ -506,7 +461,6 @@ namespace FileExplorer
 						}
 					}
 				}
-
 			}
 			catch (Exception)
 			{

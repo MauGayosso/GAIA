@@ -49,9 +49,9 @@
             </TreeView.Resources>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding children}">
-                    <CheckBox x:Name="chkb" Click="chk_clicked" IsChecked="{Binding isChecked}" Cursor="Hand" Background="#FFCECECE">
-                        <CheckBox.Template>
-                            <ControlTemplate TargetType="CheckBox">
+                    <RadioButton x:Name="chkb" Click="chk_clicked" IsChecked="{Binding isChecked}" Cursor="Hand" Background="#FFCECECE">
+                        <RadioButton.Template>
+                            <ControlTemplate TargetType="RadioButton">
                                 <StackPanel x:Name="myStack" HorizontalAlignment="Left" Orientation="Horizontal" Background="#FFCECECE">
                                     <Image Source="{Binding iconLoc}" Width="18"/>
                                     <Label x:Name="lbl" Content="{Binding name}"/>
@@ -65,8 +65,8 @@
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
-                        </CheckBox.Template>
-                    </CheckBox>
+                        </RadioButton.Template>
+                    </RadioButton>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

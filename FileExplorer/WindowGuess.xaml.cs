@@ -1,18 +1,20 @@
 ﻿using DuEDrawingControl;
-using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Button = System.Windows.Controls.Button;
 using CheckBox = System.Windows.Controls.CheckBox;
@@ -22,6 +24,7 @@ using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using Path = System.IO.Path;
 using Window = System.Windows.Window;
+using RadioButton = System.Windows.Controls.RadioButton;
 
 namespace FileExplorer
 {
@@ -31,7 +34,10 @@ namespace FileExplorer
 	public partial class WindowGuess : Window
 	{
 		//
+		private RadioButton lastCheckedRadioButton = null;
+		public string nod;
 		public string SelectedOption { get; set; }
+		public string SelectedOption2 { get; set; }
 		public string currentD;
 		//
 		List<string> itemsp = new List<string>();
@@ -40,38 +46,30 @@ namespace FileExplorer
 		public ObservableCollection<ItemAtts> ItemsAtts { get; set; }
 		//conection to database in access
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb";
-		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		List<string> listaAtts = new List<string>();
 
-		//Reference to a EDrawing to WPF
 		private EDrawingWPFControl eDrawingView;
 
-		// Parse Dir
 		private delegate Node ParseDirDelegate();
 
-		//tree display source
 		ObservableCollection<Node> treeCtx = new ObservableCollection<Node>();
 		Node firstNode;
 
-		//Dependancy properties for all labels
 		public string parseDir
 		{
 			get { return (string)GetValue(parseDirProp); }
 			set { SetValue(parseDirProp, value); }
 		}
 
-		// Register parseDirProp -> Needs to be modified if you use this code in another window
 		public static readonly DependencyProperty parseDirProp =
 			DependencyProperty.Register("parseDirGuess", typeof(string), typeof(WindowGuess), new PropertyMetadata(""));
 
-		// Number of folders
 		public int folders
 		{
 			get { return (int)GetValue(foldersProp); }
 			set { SetValue(foldersProp, value); }
 		}
 
-		// Register FoldersProp -> Needs to be modified if you use this code in another window
 		public static readonly DependencyProperty foldersProp =
 			DependencyProperty.Register("foldersGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
@@ -81,7 +79,6 @@ namespace FileExplorer
 			set { SetValue(filesProp, value); }
 		}
 
-		// Register FilesProp -> Needs to be modified if you use this code in another window
 		public static readonly DependencyProperty filesProp =
 			DependencyProperty.Register("filesGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
@@ -91,7 +88,6 @@ namespace FileExplorer
 			set { SetValue(selectedFoldersProp, value); }
 		}
 
-		// Register selectedFoldersProp -> Needs to be modified if you use this code in another window
 		public static readonly DependencyProperty selectedFoldersProp =
 			DependencyProperty.Register("selectedFoldersGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
@@ -101,7 +97,6 @@ namespace FileExplorer
 			set { SetValue(selectedFilesProp, value); }
 		}
 
-		// Register selectedFilesProp -> Needs to be modified if you use this code in another window
 		public static readonly DependencyProperty selectedFilesProp =
 			DependencyProperty.Register("selectedFilesGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
@@ -111,7 +106,6 @@ namespace FileExplorer
 			set { SetValue(sizeInBytesProp, value); }
 		}
 
-		// Register sizeInBytesProp -> Needs to be modified if you use this code in another window
 		public static readonly DependencyProperty sizeInBytesProp =
 			DependencyProperty.Register("sizeInBytesGuess", typeof(string), typeof(WindowGuess), new PropertyMetadata((string)""));
 		public WindowGuess()
@@ -128,13 +122,24 @@ namespace FileExplorer
 
 		public void LoadPathFile()
 		{
-			//parseDir = "D:/ING/"+SelectedOption+"/";
+			//parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Diseños/" + SelectedOption + "/";
 			parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ING/" + SelectedOption + "/";
-
 		}
+
+		public void LoadImage(string path)
+		{
+			try
+			{
+				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/" + path));
+			}
+			catch
+			{
+				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
+			}
+		}
+
 		private void createFirstNode()
 		{
-			//initialize first node to hold all other nodes
 			if (parseDir is null)
 			{
 
@@ -153,7 +158,6 @@ namespace FileExplorer
 					isFile = false,
 				};
 				++Node.folders;
-				//add first node to display         
 				treeCtx = new ObservableCollection<Node>()
 			{
 				firstNode
@@ -162,7 +166,6 @@ namespace FileExplorer
 
 		}
 
-		//update all dependacy properties to current static values in Node class
 		private void UpdateCounts()
 		{
 			files = Node.files;
@@ -177,37 +180,25 @@ namespace FileExplorer
 			TreeNode newSelected = e.Node;
 			DirectoryInfo _NewPath = (DirectoryInfo)newSelected.Tag;
 			if (_NewPath != null && !string.IsNullOrWhiteSpace(_NewPath.FullName))
-			{
-
-			}
+			{}
 		}
 		public void viewTree_PreviewMouseRightClickDown(object sender, MouseButtonEventArgs e)
 		{
 			var carpetaOnly = Path.GetDirectoryName(Node.selectedBytes);
 			parseDir = carpetaOnly;
-
 			ParseNewDir();
-
 		}
 
-		//It can be deleted --- Make sure to delete from .xaml
 		public void viewTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-		{
-
-		}
+		{}
 
 		public void ParseNewDir()
 		{
-			//resets all counts and displays to 0
 			Node.resetCounts();
 			UpdateCounts();
-
-			//create first node, empty tree display, display parsing msg
 			createFirstNode();
 			fileDisplay.ItemsSource = null;
 			parseMsg.Visibility = Visibility.Visible;
-
-			//recursively parse directory asynchronously 
 			ParseDirDelegate parseDelegate = new ParseDirDelegate(firstNode.DirParse);
 			parseDelegate.BeginInvoke(theCallback, this);
 		}
@@ -217,7 +208,6 @@ namespace FileExplorer
 			AsyncResult result = (AsyncResult)theResults;
 			ParseDirDelegate parseDelegate = (ParseDirDelegate)result.AsyncDelegate;
 			Node node = parseDelegate.EndInvoke(theResults);
-
 			this.Dispatcher.Invoke(DispatcherPriority.Background, ((System.Action)(() =>
 			{
 				parseMsg.Visibility = Visibility.Hidden;
@@ -227,11 +217,11 @@ namespace FileExplorer
 			})));
 		}
 
-
 		private void dirDisplay_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
 			ParseNewDir();
 		}
+
 		private void BtnFolder_Click(object sender, RoutedEventArgs e)
 		{
 			string routeFolder = (sender as Button)?.Tag as string;
@@ -241,13 +231,28 @@ namespace FileExplorer
 				ParseNewDir();
 			}
 		}
+
+		private T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+		{
+			var parentObject = VisualTreeHelper.GetParent(child);
+			if (parentObject == null)
+				return null;
+			if (parentObject is T parent)
+				return parent;
+			else
+				return FindVisualParent<T>(parentObject);
+		}
+
 		private void chk_clicked(object sender, RoutedEventArgs e)
 		{
+			nod = null;
+			var nodeS = Node.selectedBytes;
+			nod = nodeS;
 			progressB.Value = 0;
 			ItemsAtts.Clear();
 			listaAtts.Clear();
 			listAtts.ItemsSource = null;
-			if (Path.GetExtension(Node.selectedBytes).Equals(".pdf") || Path.GetExtension(Node.selectedBytes).Equals(".plt") || Path.GetExtension(Node.selectedBytes).Equals(".xlsx"))
+			if (Path.GetExtension(nodeS).Equals(".pdf") || Path.GetExtension(nodeS).Equals(".plt") || Path.GetExtension(nodeS).Equals(".xlsx"))
 			{
 				measureB.IsEnabled = false;
 				sB.Visibility = Visibility.Collapsed;
@@ -259,17 +264,26 @@ namespace FileExplorer
 				sB.Visibility = Visibility.Visible;
 				measureB.Visibility = Visibility.Visible;
 			}
-			CheckBox checkBox = (CheckBox)sender;
-			if (checkBox.Template.FindName("lbl", checkBox) is Label label)
+			RadioButton radioButton = (RadioButton)sender;
+			if (radioButton.Template.FindName("lbl", radioButton) is Label label)
 			{
-				//stck.Background = new SolidColorBrush(Colors.Blue);
 				string labelText = label.Content.ToString();
-
 				txtFolder.Text = labelText;
 				attributesFiles(labelText);
 				addGridAtts();
+				ContentPath(nodeS);
 			}
-			ContentPath(Node.selectedBytes);
+			if (radioButton.Template.FindName("lbl", radioButton) is Label label2)
+			{
+				if (radioButton.IsChecked == true && radioButton != lastCheckedRadioButton)
+				{
+					if (lastCheckedRadioButton != null)
+					{
+						lastCheckedRadioButton.IsChecked = false;
+					}
+					lastCheckedRadioButton = radioButton;
+				}
+			}
 		}
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -280,6 +294,7 @@ namespace FileExplorer
 					parseDir = fbd.SelectedPath;
 			}
 		}
+
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			try
@@ -290,19 +305,23 @@ namespace FileExplorer
 			{
 			}
 		}
+
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			string pathF = Node.selectedBytes;
 		}
+
 		private void SendConfirmation()
 		{
 			WindowMail win = new WindowMail();
 			win.Show();
 		}
+
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			SendConfirmation();
 		}
+
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
 			try
@@ -323,10 +342,12 @@ namespace FileExplorer
 				Mouse.OverrideCursor = null;
 			}
 		}
+
 		private void SearchBox(string searchItem)
 		{
 			Mouse.OverrideCursor = Cursors.Wait;
 			string directoryPath = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ING/" + SelectedOption + "/";
+			//string directoryPath = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Diseños/" + SelectedOption + "/";
 			string[] files = Directory.GetFiles(directoryPath, "*" + searchItem + "*" + ".*", SearchOption.AllDirectories);
 			string[] directories = Directory.GetDirectories(directoryPath, "*" + searchItem + "*", SearchOption.AllDirectories);
 			int totalItems = files.Length + directories.Length;
@@ -362,6 +383,7 @@ namespace FileExplorer
 			progressBar.Value = progressPercentage;
 			progressBar.Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
 		}
+
 		private void HamburgerButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (MenuItemsPanel.Visibility == Visibility.Visible)
@@ -374,12 +396,14 @@ namespace FileExplorer
 			}
 
 		}
+
 		private void MenuClick(object sender, RoutedEventArgs e)
 		{
-			WindowClientsMenu win = new WindowClientsMenu();
+			OptionsGuess win = new OptionsGuess();
 			win.Show();
 			Close();
 		}
+
 		private void ExitClick(object sender, RoutedEventArgs e)
 		{
 			Close();
@@ -394,7 +418,8 @@ namespace FileExplorer
 
 		private void Open_Click(object sender, RoutedEventArgs e)
 		{
-			toolbarOption(Node.selectedBytes);
+			var p = nod;
+			toolbarOption(p);
 		}
 
 		private void toolbarOption(string path)
@@ -450,6 +475,7 @@ namespace FileExplorer
 				MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, (MessageBoxImage)MessageBoxIcon.Exclamation);
 			}
 		}
+
 		private void EditInfoFile_Click(object sender, RoutedEventArgs e)
 		{
 			if (Node.selectedBytes != null)
@@ -467,6 +493,7 @@ namespace FileExplorer
 				MessageBox.Show("Selecciona una archivo para editar", "Error");
 			}
 		}
+
 		private void folder_click(object sender, RoutedEventArgs e)
 		{
 			if (Node.selectedBytes == null)
@@ -478,11 +505,13 @@ namespace FileExplorer
 				Process.Start("explorer.exe", Path.GetDirectoryName(Node.selectedBytes));
 			}
 		}
+
 		private void reloadTreeView_click(object sender, RoutedEventArgs e)
 		{
 			LoadPathFile();
 			ParseNewDir();
 		}
+
 		private void backTreeView_click(object sender, RoutedEventArgs e)
 		{
 			var p = Node.selectedBytes;
@@ -502,6 +531,7 @@ namespace FileExplorer
 				}
 			}
 		}
+
 		public void attributesFiles(string id)
 		{
 			var query = "SELECT * FROM atts WHERE Id_file=@Value1";
@@ -545,6 +575,7 @@ namespace FileExplorer
 				}
 			}
 		}
+
 		private void addGridAtts()
 		{
 			if (listaAtts.Count < 14)
@@ -658,11 +689,9 @@ namespace FileExplorer
 		private void ContentPathTW(string folderp)
 		{
 			listFilesNode.Items.Clear();
-			Debug.WriteLine("folderP : " + folderp);
 			string[] directories = Directory.GetDirectories(folderp);
 			foreach (string directory in directories)
 			{
-				Debug.WriteLine("dName : " + Path.GetDirectoryName(directory));
 				listFilesNode.Items.Add("Carpeta: " + Path.GetFileName(directory));
 			}
 		}
@@ -670,7 +699,6 @@ namespace FileExplorer
 		{
 			string parentPath = Directory.GetParent(folderp)?.FullName;
 			listFilesNode.Items.Clear();
-			//var pathF = Path.GetDirectoryName(folderp);
 			var p = Node.selectedBytes;
 			if (p is null)
 			{
@@ -688,7 +716,6 @@ namespace FileExplorer
 					{
 						listFilesNode.Items.Add("Carpeta: " + directory.Replace(Path.GetDirectoryName(directory) + Path.DirectorySeparatorChar, ""));
 					}
-					Debug.WriteLine(newP);
 				}
 			}
 
@@ -741,16 +768,17 @@ namespace FileExplorer
 		}
 		private void MenuItem_Click_2(object sender, RoutedEventArgs e)
 		{
-			var path = twSearched.SelectedItem.ToString();
-			var pathF = txtP.Text;
-			/*if (path == null)
+			var textP = txtP.Text;
+			string fullF = itemsp.Find(item => item.Contains(txtP.Text));
+			var path = fullF;
+			if (path == null)
 			{
 				MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else
 			{
 				Process.Start("explorer.exe", Path.GetDirectoryName(path));
-			}*/
+			}
 		}
 
 		private void MenuItem_Click_3(object sender, RoutedEventArgs e)
@@ -816,14 +844,20 @@ namespace FileExplorer
 			var textP = txtP.Text;
 			string fullF = itemsp.Find(item => item.Contains(txtP.Text));
 			string fullP = itemsf.Find(item => item.Contains(txtP.Text));
-			ContentPathTW(fullP);
-			if (Path.GetExtension(textP).Length > 1)
+			if (fullP != null)
 			{
-				ver.IsEnabled = true;
+				ContentPathTW(fullP);
 			}
 			else
 			{
-				ver.IsEnabled = false;
+			}
+			if (Path.GetExtension(textP).Length > 1)
+			{
+				Visualizar.IsEnabled = true;
+			}
+			else
+			{
+				Visualizar.IsEnabled = false;
 			}
 			attributesFiles(textP);
 			addGridAtts();
@@ -939,6 +973,28 @@ namespace FileExplorer
 				finally
 				{
 					Mouse.OverrideCursor = null;
+				}
+			}
+		}
+
+		private void fileDisplay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.Source is TreeViewItem treeViewItem)
+			{
+				treeViewItem.IsExpanded = !treeViewItem.IsExpanded;
+			}
+		}
+
+		private void fileDisplay_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.OriginalSource is FrameworkElement sourceElement && sourceElement.DataContext is TreeViewItem item)
+			{
+				// If the TreeViewItem is not already expanded, expand it.
+				if (!item.IsExpanded)
+				{
+					item.IsExpanded = true;
+					// Mark the event as handled, so the default expansion behavior is bypassed.
+					e.Handled = true;
 				}
 			}
 		}

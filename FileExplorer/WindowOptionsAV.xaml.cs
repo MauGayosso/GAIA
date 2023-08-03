@@ -13,22 +13,13 @@ namespace FileExplorer
 	public partial class WindowOptionsAV : Window
 	{
 		Screen primaryScreen = Screen.PrimaryScreen;
-
-		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb;";
-
 		List<string> categorias = new List<string>();
 		public WindowOptionsAV()
 		{
 			InitializeComponent();
 			getCategorias();
 		}
-
-		private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-
-		}
-
 		public void getCategorias()
 		{
 			var query = "SELECT * FROM categorias";
@@ -48,7 +39,6 @@ namespace FileExplorer
 				connection.Close();
 			}
 		}
-
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			int screenW = primaryScreen.Bounds.Width;
@@ -72,7 +62,6 @@ namespace FileExplorer
 				else if (screenW == 1366 && screenH == 768)
 				{
 					WindowAyudasVisuales2 winAV = new WindowAyudasVisuales2();
-					//winAV.parseDirCorte = "D:/ARCHIVOS DE AYUDAS VISUALES/" + comboBox1.Text + "/";
 					winAV.parseDirCorte = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ARCHIVOS DE AYUDAS VISUALES/" + comboBox1.Text + "/";
 					winAV.SelectedOption = comboBox1.Text;
 					winAV.ParseNewDir();
@@ -82,14 +71,12 @@ namespace FileExplorer
 				else if (screenW == 1360 && screenH == 768)
 				{
 					WindowAyudasVisuales2 winAV = new WindowAyudasVisuales2();
-					//winAV.parseDirCorte = "D:/ARCHIVOS DE AYUDAS VISUALES/" + comboBox1.Text + "/";
 					winAV.parseDirCorte = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ARCHIVOS DE AYUDAS VISUALES/" + comboBox1.Text + "/";
 					winAV.SelectedOption = comboBox1.Text;
 					winAV.ParseNewDir();
 					winAV.Show();
 					Close();
 				}
-
 			}
 		}
 		private void btnBack_Click(object sender, RoutedEventArgs e)

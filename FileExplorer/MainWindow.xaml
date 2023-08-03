@@ -102,14 +102,14 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <Button x:Name="btnBuscar" Content="Buscar" Style="{StaticResource RoundedButtonStyle}" Height="26" Click="SearchButton_Click" FontSize="9" Width="54" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="Black" Background="White" Margin="0,77,567,0" Grid.Column="5"/>
+        <Button x:Name="btnBuscar" Content="Buscar" Style="{StaticResource RoundedButtonStyle}" Height="26" Click="SearchButton_Click" FontSize="11" Width="54" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="Black" Background="White" Margin="0,77,567,0" Grid.Column="5" FontFamily="Arial Rounded MT Bold" FontWeight="Bold"/>
         <TextBox ToolTip="Buscar" x:Name="txtSearch" Style="{StaticResource RoundedTextBoxStyle}" KeyDown="txtSearch_KeyDown" Cursor="Help" Margin="62,77,0,0" Background="#FFE8E8E8" HorizontalAlignment="Left" Width="216" Height="26" VerticalAlignment="Top" Grid.Column="4" BorderBrush="Black"/>
         <StackPanel  x:Name="parseMsg" Panel.ZIndex="2" Orientation="Horizontal" Margin="47,179,108,197" Grid.ColumnSpan="2">
             <Image  Source="image/lifttruck.png" VerticalAlignment="Top"/>
             <Label  Content="Cargando..." />
         </StackPanel>
 
-        <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" Height="72" RenderTransformOrigin="0.5,0.5" Margin="134,336,0,0" Grid.Column="1" Grid.ColumnSpan="3">
+        <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" Height="72" RenderTransformOrigin="0.5,0.5" Margin="13,336,0,0" Grid.Column="2" Grid.ColumnSpan="2">
             <DockPanel.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -118,7 +118,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </DockPanel.RenderTransform>
-            <ToolBar Height="68" Width="190" Background="#FF494C6F">
+            <ToolBar Height="68" Width="225" Background="#FF494C6F">
                 <Button Click="Open_Click" ToolTip="Visualizar">
                     <Image Source="image/eye.png" Width="28" Height="30" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
@@ -158,7 +158,7 @@
                     </Image>
                 </Button>
                 <Separator/>
-                <Button x:Name="btnSaveInfo" Click="SaveInfoFile_Click" Height="34" Width="31" ToolTip="Agregar elementos" ToolBar.OverflowMode="AsNeeded">
+                <Button x:Name="btnSaveInfo" Click="SaveInfoFile_Click" Height="34" Width="31" ToolTip="Agregar elementos">
                     <Image Source="image/tag.png" Width="25" Height="25" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
@@ -170,9 +170,9 @@
                         </Image.RenderTransform>
                     </Image>
                 </Button>
-
-                <Button Click="EditInfoFile_Click" ToolTip="Editar elementos" Height="34" Width="31" ToolBar.OverflowMode="Always">
-                    <Image Source="image/editar.png" Width="25" Height="25" RenderTransformOrigin="0.5,0.5">
+                <Separator></Separator>
+                <Button Click="EditInfoFile_Click" ToolTip="Editar elementos" Height="34" Width="31" ToolBar.OverflowMode="Never">
+                    <Image Source="image/edit.png" Width="25" Height="25" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -186,9 +186,9 @@
 
             </ToolBar>
         </DockPanel>
-        <GroupBox Header="" Grid.ColumnSpan="7" Margin="18,136,105,10" Grid.RowSpan="2" Grid.Row="3">
+        <GroupBox Header="Información" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Grid.ColumnSpan="7" Margin="18,136,105,10" Grid.RowSpan="2" Grid.Row="3" Foreground="White" BorderBrush="Black">
             <Grid>
-                <DataGrid x:Name="listAtts" AutoGenerateColumns="False" Visibility="Visible" Background="#FFC5C5C5" Margin="16,46,428,0" Width="auto" Height="45" VerticalAlignment="Top" BorderBrush="Black">
+                <DataGrid x:Name="listAtts" AutoGenerateColumns="False" Visibility="Visible" Background="#FFC5C5C5" Margin="16,46,428,0" Width="auto" Height="42" VerticalAlignment="Top" BorderBrush="Black" FontSize="12">
                     <DataGrid.Columns>
                         <DataGridTextColumn Visibility="Hidden" Header="ID" Binding="{Binding Name}"/>
                         <DataGridTextColumn Header="No. Parte" Binding="{Binding no_parte}" />
@@ -207,28 +207,29 @@
                         <DataGridCheckBoxColumn Header="Soldadura" Binding="{Binding p_soldadura}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <ProgressBar x:Name="progressB" Margin="16,101,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="785" BorderBrush="Black" Foreground="#FF39C52D"/>
-                <CheckBox x:Name="chkArticulo" Content="Creación de Articulo" Margin="23,108,0,0" IsEnabled="False" HorizontalAlignment="Left" Width="133" Height="19" VerticalAlignment="Top"/>
-                <CheckBox x:Name="chkEstructura" Content="Estructura de Producto" Margin="186,109,0,0" IsEnabled="False" HorizontalAlignment="Left" Width="146" Height="18" VerticalAlignment="Top"/>
-                <CheckBox x:Name="chkProcesos" Content="Descrip. de Procesos" Margin="355,108,0,0" IsEnabled="False" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="136"/>
-                <CheckBox x:Name="chkModelado" Content="Modelado" Margin="546,108,0,0" IsEnabled="False" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"/>
-                <CheckBox x:Name="chkPublicacion" Content="Publicación"  IsEnabled="False" Margin="682,108,0,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Width="88"/>
+                <ProgressBar x:Name="progressB" Margin="16,101,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="965" BorderBrush="Black" Foreground="#FF39C52D"/>
+                <CheckBox x:Name="chkArticulo" Content="Creación de Articulo" Margin="23,108,0,0" IsEnabled="False" HorizontalAlignment="Left" Width="185" Height="19" VerticalAlignment="Top" FontSize="14"/>
+                <CheckBox x:Name="chkEstructura" Content="Estructura de Producto" Margin="217,109,0,0" IsEnabled="False" HorizontalAlignment="Left" Width="183" Height="18" VerticalAlignment="Top" FontSize="14"/>
+                <CheckBox x:Name="chkProcesos" Content="Descrip. de Procesos" Margin="421,108,0,0" IsEnabled="False" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="168" FontSize="14"/>
+                <CheckBox x:Name="chkModelado" Content="Modelado" Margin="635,108,0,0" IsEnabled="False" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="105" FontSize="14"/>
+                <CheckBox x:Name="chkPublicacion" Content="Publicación"  IsEnabled="False" Margin="819,108,0,0" Height="19" VerticalAlignment="Top" HorizontalAlignment="Left" Width="117" FontSize="14"/>
                 <TextBox x:Name="txtParte"  HorizontalAlignment="Left" Style="{StaticResource RoundedTextBoxStyle}" ToolTip="Propiedades No.Parte" Margin="18,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="24" BorderBrush="Black" Background="#FFC5C5C5" KeyDown="txtParte_KeyDown"/>
-                <Button x:Name="btnParte" Style="{StaticResource RoundedButtonStyle}" Content="Buscar" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="24" Width="54" Background="White" BorderBrush="Black" Click="btnParte_Click"/>
+                <Button x:Name="btnParte" Style="{StaticResource RoundedButtonStyle}" Content="Buscar" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="24" Width="69" Background="White" BorderBrush="Black" Click="btnParte_Click"/>
 
             </Grid>
         </GroupBox>
-
-        <ListView ToolTip="Contenido de carpeta" x:Name="listFilesNode" Visibility="Visible" SelectionMode="Single" Background="#FFC5C5C5" Margin="26,51,0,0" Grid.Row="3" HorizontalAlignment="Left" Width="182" RenderTransformOrigin="0.5,0.5" Height="62" VerticalAlignment="Top" BorderBrush="Black">
-            <ListView.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </ListView.RenderTransform>
-        </ListView>
+        <GroupBox FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Margin="18,38,10,69" Grid.Row="3" Header="Contenido de la carpeta" Foreground="White" BorderBrush="Black">
+            <ListView ToolTip="Contenido de carpeta" x:Name="listFilesNode" Visibility="Visible" SelectionMode="Single" Background="#FFC5C5C5" Grid.Row="3" RenderTransformOrigin="0.5,0.5" Height="54" VerticalAlignment="Center" BorderBrush="Black" Margin="4,0,4,0">
+                <ListView.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ListView.RenderTransform>
+            </ListView>
+        </GroupBox>
         <WebBrowser x:Name="wb" Margin="235,152,52,114" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="4" Focusable="False"/>
         <edrawing:EDrawingWPFControl x:Name="edrawingControl" Margin="221,135,0,101" HorizontalAlignment="Left" Width="1200" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="4"/>
         <Rectangle Fill="#FFC5C5C5" Height="58" VerticalAlignment="Top" Grid.ColumnSpan="7" Margin="0,0,0,0"/>
@@ -251,14 +252,13 @@
             </Button.Background>
         </Button>
         <ProgressBar x:Name="progressBar" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="62,112,0,0" VerticalAlignment="Top" Width="218" Background="{x:Null}" BorderBrush="{x:Null}" Value="{Binding Progress}"/>
-        <Separator HorizontalAlignment="Left" Margin="0,128,0,0" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="7" Height="16" Width="1920"/>
-        <GroupBox  FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Header="Resultados de busqueda" Grid.ColumnSpan="4" Margin="18,190,279,164" Grid.RowSpan="3" Grid.Row="1" BorderBrush="Black" Foreground="White">
+        <GroupBox  FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Header="Resultados de busqueda" Grid.ColumnSpan="4" Margin="18,190,245,164" Grid.RowSpan="3" Grid.Row="1" BorderBrush="Black" Foreground="White">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="237*"/>
                     <ColumnDefinition Width="244*"/>
                 </Grid.ColumnDefinitions>
-                <TreeView ToolTip="Resultados de Busqueda" x:Name="twSearched" SelectedItemChanged="twSearched_SelectedItemChanged" Background="#FFC5C5C5" Margin="10,10,10,10" BorderBrush="Black" Grid.ColumnSpan="2">
+                <TreeView ToolTip="Resultados de Busqueda" x:Name="twSearched" SelectedItemChanged="twSearched_SelectedItemChanged" Background="#FFC5C5C5" Margin="10,10,10,10" BorderBrush="Black" Grid.ColumnSpan="2" FontSize="12">
                     <TreeView.ContextMenu>
                         <ContextMenu x:Name="ctxMenu" IsEnabled="True">
                             <MenuItem x:Name="Visualizar" Header="Visualizar" Click="MenuItem_Click_1" IsEnabled="True">
@@ -291,7 +291,7 @@
                 </TreeView>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Archivos" Grid.ColumnSpan="4" Margin="14,80,283,29" Grid.RowSpan="2" BorderBrush="Black" FontSize="14" Foreground="White" FontFamily="Arial Rounded MT Bold">
+        <GroupBox Header="Archivos" Grid.ColumnSpan="4" Margin="14,80,245,29" Grid.RowSpan="2" BorderBrush="Black" FontSize="14" Foreground="White" FontFamily="Arial Rounded MT Bold">
             <Grid Height="513">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="430*"/>
@@ -303,7 +303,7 @@
                 <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta" Margin="10,10,389,0" VerticalAlignment="Top">
                     <Image Source="image/back.png" Width="25" Height="23" RenderTransformOrigin="0.5,0.5"/>
                 </Button>
-                <TreeView x:Name="fileDisplay" MouseLeftButtonUp="fileDisplay_MouseLeftButtonDown" PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" Background="#FFC5C5C5" Margin="10,49,10,0" BorderBrush="Black" Grid.ColumnSpan="2">
+                <TreeView x:Name="fileDisplay" PreviewMouseLeftButtonDown="fileDisplay_PreviewMouseLeftButtonDown" MouseLeftButtonUp="fileDisplay_MouseLeftButtonDown" PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" Background="#FFC5C5C5" Margin="10,49,10,0" BorderBrush="Black" Grid.ColumnSpan="2">
                     <TreeView.Resources>
                         <ContextMenu x:Key="TreeViewContextMenu" x:Name="TreeViewContextMenu">
                             <MenuItem Header="Open" Click="MenuItem_Click"/>
@@ -335,6 +335,6 @@
             </Grid>
         </GroupBox>
         <Image x:Name="displayImage" HorizontalAlignment="Left" Height="40" Margin="117,10,0,0" VerticalAlignment="Top" Width="84"/>
-
+        <Image x:Name="imageTIF" Grid.Column="3"  Margin="221,135,0,101" HorizontalAlignment="Left" Width="1200" Grid.RowSpan="4" Grid.ColumnSpan="4" Stretch="Uniform"/>
     </Grid>
 </Window>
