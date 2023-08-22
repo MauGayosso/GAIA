@@ -4,7 +4,4 @@
              xmlns:local="clr-namespace:FileExplorer"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"  
              StartupUri="WindowLogin.xaml">
-    <Application.Resources>
-        
-    </Application.Resources>
 </Application>

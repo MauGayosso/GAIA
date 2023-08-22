@@ -13,8 +13,12 @@
         Title="Administrador" SizeToContent="WidthAndHeight" WindowState="Maximized" Width="1920" Height="1080">
 
     <Grid>
-        <Rectangle HorizontalAlignment="Left" Height="103" VerticalAlignment="Top" Width="1920" Fill="#FFA7C7FF"/>
-        <Image HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="90" Source="/image/logo1rb.png" Grid.Column="3" Grid.ColumnSpan="2" Margin="9,0,0,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="127*"/>
+            <RowDefinition Height="938*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="#FFA7C7FF" Margin="0,0,0,24"/>
+        <Image HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="90" Source="/image/logo1rb.png" Margin="9,0,0,0"/>
         <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
                 Margin="1848,24,0,0" Width="62" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="56" Foreground="{x:Null}">
             <Image Source="/image/user.png" Height="59" Width="51" StretchDirection="DownOnly"/>
@@ -24,81 +28,9 @@
             <Button Click="LogOut" Content="Cerrar sesión" Background="White"/>
             <Button Click="ExitClick" Content="Salir" Background="White"/>
         </StackPanel>
-        <TabControl Margin="0,70,3,0">
-            <TabItem Header="Clientes">
-                <Grid Height="1080" VerticalAlignment="Top" Margin="0,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.Background>
-                        <ImageBrush ImageSource="/image/bwall.jpg"/>
-                    </Grid.Background>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="89*"/>
-                        <ColumnDefinition Width="13*"/>
-                        <ColumnDefinition Width="22*"/>
-                        <ColumnDefinition Width="54*"/>
-                        <ColumnDefinition Width="74*"/>
-                        <ColumnDefinition Width="1660*"/>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dynamicTable" IsReadOnly="True"  AutoGenerateColumns="False" Margin="51,27,1190,173" Grid.ColumnSpan="6" Grid.RowSpan="2">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nombre" Binding="{Binding Name}" />
-                            <DataGridTextColumn Header="Ubicacion" Binding="{Binding PathClient}" />
-                            <DataGridTemplateColumn Header="">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="Editar" Command="{Binding EditCommand}" CommandParameter="{Binding}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="Eliminar" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Button x:Name="btnReload" Grid.Column="5" HorizontalAlignment="Left" Margin="378,27,0,0" VerticalAlignment="Top" Height="21" Width="25" BorderBrush="White" Click="btnReload_Click">
-                        <Button.Background>
-                            <ImageBrush ImageSource="/image/refresh.png"/>
-                        </Button.Background>
-                    </Button>
-                    <Canvas  x:Name="canvaCliente" Visibility="Hidden" Grid.Column="5" Margin="524,22,854,0" Background="White" Height="244" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-
-                        <TextBox x:Name="txtNameInsertClient" Canvas.Left="16" TextWrapping="Wrap" Canvas.Top="70" Width="160" Height="23" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="#FF0040FF"/>
-                        <Button x:Name="btnSelectFolderCliente" Content="Selecciona una carpeta" Canvas.Left="16" Canvas.Top="110" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnSelectFolderCliente_Click" RenderTransformOrigin="0.5,0.5"/>
-                        <Button Content="Agregar" Canvas.Left="104" Canvas.Top="200" Height="26" RenderTransformOrigin="0.5,0.5" Width="72" Click="Button_Click"/>
-                        <Label Content="Nombre del cliente" HorizontalAlignment="Left" Canvas.Left="16" Canvas.Top="39" VerticalAlignment="Center"/>
-                        <Rectangle Height="30" Stroke="#FF0027FF" Width="281" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF81CAF4"/>
-                        <Label Content="Agregar cliente" Canvas.Top="2" HorizontalAlignment="Left" VerticalAlignment="Center" Width="176"/>
-                        <TextBox x:Name="txtPath" Canvas.Left="16" TextWrapping="Wrap"  Canvas.Top="150" Width="255" HorizontalAlignment="Center" VerticalAlignment="Top" Height="25" Background="{x:Null}" BorderBrush="#FF0040FF"/>
-                    </Canvas>
-                    <Button x:Name="btnAddClient" Grid.Column="5" HorizontalAlignment="Left" Margin="417,27,0,0" VerticalAlignment="Top" Height="22" Width="22" BorderBrush="White" Foreground="{x:Null}" Click="btnAddClient_Click">
-                        <Button.Background>
-                            <ImageBrush ImageSource="/image/add-user.png"/>
-                        </Button.Background>
-                    </Button>
-                    <Canvas x:Name="editClientCanva" Visibility="Hidden" Grid.Column="5" Margin="524,292,854,288" Background="White">
-                        <Rectangle Height="30" Stroke="#FF0010FF" Width="281" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF81CAF4"/>
-                        <TextBox x:Name="txtEditPathClient" TextWrapping="Wrap" Width="251" BorderBrush="#FF0040FF" HorizontalAlignment="Center" Canvas.Left="10" Canvas.Top="170" VerticalAlignment="Top"/>
-                        <Button Content="Agregar" Width="54" Click="Button_Click_2" HorizontalAlignment="Left" Canvas.Left="114" Canvas.Top="205" VerticalAlignment="Top"/>
-                        <Label Content="Nuevo nombre" Canvas.Left="11" Canvas.Top="84" HorizontalAlignment="Left" VerticalAlignment="Center" Width="96"/>
-                        <TextBox x:Name="txtNewNameCliente" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="110" Width="126" Height="20" BorderBrush="#FF0040FF"/>
-                        <Button x:Name="btnEditPathCliente" Content="Selecciona una carpeta" Width="130" Click="btnEditPathCliente_Click" HorizontalAlignment="Left" Canvas.Left="11" Canvas.Top="135" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtEditCliente" IsReadOnly="True" TextWrapping="Wrap" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Left" Canvas.Left="11" Canvas.Top="66" VerticalAlignment="Top"/>
-
-                        <Label Grid.Column="3" Content="Editar Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="4"/>
-                        <Label Grid.Column="3" Content="Nombre de Cliente" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="35"/>
-                    </Canvas>
-                </Grid>
-
-            </TabItem>
+        <TabControl Margin="0,70,3,0" Grid.RowSpan="2">
             <TabItem Header="Usuarios">
-                <Grid Height="1080" VerticalAlignment="Top" Margin="0,0,0,0">
+                <Grid Height="963" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="17*"/>
                         <ColumnDefinition Width="15*"/>
@@ -108,7 +40,7 @@
                     <Grid.Background>
                         <ImageBrush ImageSource="/image/bwall.jpg"/>
                     </Grid.Background>
-                    <DataGrid x:Name="dynamicTableUsers" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,10,1425,152" Grid.ColumnSpan="4">
+                    <DataGrid x:Name="dynamicTableUsers" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,43,1425,119" Grid.ColumnSpan="4">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Usuario" Binding="{Binding Name}" />
                             <DataGridTextColumn Header="Contraseña" Binding="{Binding Password}" />
@@ -129,100 +61,123 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <ui:Button x:Name="btnReloadUsers" Grid.Column="3" HorizontalAlignment="Left" Margin="166,10,0,0" VerticalAlignment="Top" Click="btnReloadUsers_Click_1" Height="30" Width="35" Foreground="{x:Null}" BorderBrush="White">
+                    <ui:Button x:Name="btnReloadUsers" Grid.Column="1" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Click="btnReloadUsers_Click_1" Height="30" Width="35" Foreground="{x:Null}" BorderBrush="White" Grid.ColumnSpan="2">
                         <ui:Button.Background>
                             <ImageBrush ImageSource="/image/refresh.png"/>
                         </ui:Button.Background>
                     </ui:Button>
-                    <ui:Button x:Name="btnAddUsers" Grid.Column="3" HorizontalAlignment="Left" Margin="205,10,0,0" VerticalAlignment="Top" Height="30" Width="30" BorderBrush="#FFFDFDFD" Click="btnAddUsers_Click">
+                    <ui:Button x:Name="btnAddUsers" Grid.Column="2" HorizontalAlignment="Left" Margin="33,8,0,0" VerticalAlignment="Top" Height="30" Width="30" BorderBrush="#FFFDFDFD" Click="btnAddUsers_Click">
                         <ui:Button.Background>
                             <ImageBrush ImageSource="/image/add-user.png"/>
                         </ui:Button.Background>
                     </ui:Button>
-                    <Canvas x:Name="canvaUsers" Visibility="Hidden" Grid.Column="3" Margin="308,63,1202,746" Background="White">
-                        <Label Content="Usuario" Canvas.Left="30" Canvas.Top="30"/>
-                        <TextBox x:Name="txtUsuario" Canvas.Left="30" TextWrapping="Wrap" Canvas.Top="61" Width="120" BorderBrush="#FF0040FF"/>
-                        <Label Content="Contraseña" Canvas.Left="30" Canvas.Top="133" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtContraUsusario" Canvas.Left="30" TextWrapping="Wrap" Canvas.Top="169" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <Button Content="Agregar" Canvas.Left="67" Canvas.Top="210" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="#FF0040FF" Click="Button_Click_1"/>
-                        <Rectangle Height="25" Width="175" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF6FCAC4" Stroke="#FF0010FF"/>
-                        <Label Grid.Column="3" Content="Rol" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="30" Canvas.Top="84"/>
+                    <Canvas x:Name="canvaUsers" Visibility="Hidden" Grid.Column="3" Margin="308,0,0,629" Background="White" Height="271" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="149">
+                        <Label Content="Usuario" Canvas.Left="10" Canvas.Top="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtUsuario" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="61" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Label Content="Contraseña" Canvas.Left="10" Canvas.Top="133" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtContraUsusario" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="160" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <Button Content="Agregar" Canvas.Left="51" Canvas.Top="227" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" Click="Button_Click_1"/>
+                        <Rectangle Height="25" Width="149" HorizontalAlignment="Left" VerticalAlignment="Center" Fill="#FF6FCAC4"/>
+                        <Label Grid.Column="3" Content="Rol" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="10" Canvas.Top="84"/>
 
                         <Label Content="Agregar usuario"/>
-                        <ComboBox x:Name="cmbRol" Canvas.Left="30" Canvas.Top="111" Width="120" BorderBrush="#FF0040FF">
+                        <ComboBox x:Name="cmbRol" Canvas.Left="10" Canvas.Top="111" Width="120" BorderBrush="#FF0040FF" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <ComboBoxItem Content="admin"></ComboBoxItem>
                             <ComboBoxItem Content="lector"></ComboBoxItem>
                         </ComboBox>
                     </Canvas>
-                    <Canvas x:Name="editUsersCanva" Visibility="Hidden" Grid.Column="3" Margin="308,370,1202,438" Background="White">
-                        <Label Content="Usuario" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="31" VerticalAlignment="Top"/>
-                        <Label Content="Nuevo nombre" Canvas.Left="10" Canvas.Top="72" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        <Rectangle Grid.Column="2" HorizontalAlignment="Left" Height="21" Stroke="#FF001BFF" VerticalAlignment="Center" Width="175" Fill="#FF6FCAC4"/>
+                    <Canvas x:Name="editUsersCanva" Visibility="Hidden" Grid.Column="3" Margin="308,0,0,321" Background="White" Height="272" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="149">
+                        <Label Content="Usuario" Canvas.Left="10" Canvas.Top="29" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <Rectangle Grid.Column="2" HorizontalAlignment="Left" Height="21" VerticalAlignment="Center" Width="149" Fill="#FF6FCAC4"/>
                         <Label Grid.Column="2" Content="Editar Usuario" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="3" Canvas.Top="-2"/>
-                        <TextBox x:Name="txtEditUser" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="57"/>
-                        <TextBox x:Name="txtEditNewUser" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="99"/>
-                        <TextBox x:Name="txtPassword" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="195"/>
-                        <Label Grid.Column="2" Content="Contraseña nueva" HorizontalAlignment="Center" VerticalAlignment="Top" Width="105" Canvas.Left="10" Canvas.Top="168"/>
-                        <Button Grid.Column="2" Content="Actualizar" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="55" Canvas.Top="226" Click="Button_Click_3"/>
-                        <ComboBox x:Name="cmbEditRol" Canvas.Left="10" Canvas.Top="141" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <TextBox x:Name="txtEditUser" Visibility="Hidden" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="57"/>
+                        <TextBox x:Name="txtEditNewUser" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="60"/>
+                        <TextBox x:Name="txtPassword" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="#FF0040FF" Canvas.Left="10" Canvas.Top="181"/>
+                        <Label Grid.Column="2" Content="Contraseña nueva" HorizontalAlignment="Center" VerticalAlignment="Top" Width="105" Canvas.Left="10" Canvas.Top="150"/>
+                        <Button Grid.Column="2" Content="Actualizar" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="47" Canvas.Top="242" Click="Button_Click_3" BorderBrush="Black"/>
+                        <ComboBox x:Name="cmbEditRol" Canvas.Left="10" Canvas.Top="118" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top">
                             <ComboBoxItem Content="admin"></ComboBoxItem>
                             <ComboBoxItem Content="lector"></ComboBoxItem>
                         </ComboBox>
-                        <Label Grid.Column="3" Content="Rol" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="10" Canvas.Top="117"/>
+                        <Label Grid.Column="3" Content="Rol" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="10" Canvas.Top="87"/>
                     </Canvas>
                 </Grid>
             </TabItem>
             <TabItem Header="Tips" Height="22" Margin="-1,0,0,0" VerticalAlignment="Center">
-                <Grid Height="1080" VerticalAlignment="Top" Margin="0,0,0,0">
+                <Grid Height="966" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="101*"/>
-                        <ColumnDefinition Width="88*"/>
-                        <ColumnDefinition Width="1722*"/>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
                         <ImageBrush ImageSource="/image/bwall.jpg"/>
                     </Grid.Background>
-                    <DataGrid x:Name="dynamicTableTips" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,10,1410,221" Grid.ColumnSpan="3">
+                    <DataGrid x:Name="dynamicTableTips" IsReadOnly="True" AutoGenerateColumns="False"  MaxWidth="1400"  Margin="24,48,1521,48" Grid.Column="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" />
-                            <DataGridTextColumn Header="Categoria" Binding="{Binding Category}" />
+                            <DataGridTextColumn Header="Tip" Binding="{Binding Message}" MaxWidth="820" Width="auto" />
+                            <DataGridTextColumn Header="Categoria" Binding="{Binding Category}" MaxWidth="100" Width="auto"/>
                             <DataGridTemplateColumn Header="">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Editar" Command="{Binding EditCommand}" CommandParameter="{Binding}" />
+                                        <Button Content="Editar" Command="{Binding EditCommand}" CommandParameter="{Binding}"  MaxWidth="50" Width="auto" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header=" ">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Eliminar" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" />
+                                        <Button Content="Eliminar" Command="{Binding DeleteCommand}" CommandParameter="{Binding}" MaxWidth="50" Width="auto"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="Button" HorizontalAlignment="Left" Margin="225,13,0,0" VerticalAlignment="Top" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="20" Width="26" RenderTransformOrigin="0.5,0.5" Grid.Column="2" Click="btnReloadUsers_Click_1">
+                    <Button x:Name="btnReload" Content="Button" HorizontalAlignment="Left" Margin="24,13,0,0" VerticalAlignment="Top" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="29" Width="30" RenderTransformOrigin="0.5,0.5" Click="btnReloadTips_Click" Grid.ColumnSpan="2" Grid.Column="1">
                         <Button.Background>
                             <ImageBrush ImageSource="/image/refresh.png"/>
                         </Button.Background>
                     </Button>
-                    <Button Content="Button" HorizontalAlignment="Left" Margin="273,13,0,0" VerticalAlignment="Top" Height="20" Width="20" Foreground="{x:Null}" BorderBrush="{x:Null}" Grid.Column="2">
+                    <Button x:Name="btnAddTip" Content="Button" HorizontalAlignment="Left" Margin="75,13,0,0" VerticalAlignment="Top" Height="30" Width="30" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click" Grid.Column="2">
                         <Button.Background>
                             <ImageBrush ImageSource="/image/addTip.png"/>
                         </Button.Background>
                     </Button>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Ayudas Visuales">
-                <Grid Height="1080" VerticalAlignment="Top" Margin="0,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="131*"/>
-                        <ColumnDefinition Width="1780*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.Background>
-                        <ImageBrush ImageSource="/image/bwall.jpg"/>
-                    </Grid.Background>
+                    <Canvas x:Name="canvaMessages" Visibility="Hidden" Grid.Column="2" Margin="1640,23,0,0" Background="#FFE6E6E6" Height="302" VerticalAlignment="Top" HorizontalAlignment="Left" Width="239">
+                        <Label Content="Mensaje" Canvas.Left="10" Canvas.Top="39" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <Label Content="Categoria" Canvas.Left="10" Canvas.Top="185" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button x:Name="btnAgg" Content="Agregar" Canvas.Left="182" Canvas.Top="272" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnAgg_Click"/>
+                        <ComboBox x:Name="cmbMCategoria" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="205" Canvas.Left="18" Canvas.Top="216">
+                            <ComboBoxItem>CORTE</ComboBoxItem>
+                            <ComboBoxItem>DETALLADO</ComboBoxItem>
+                            <ComboBoxItem>DOBLEZ</ComboBoxItem>
+                            <ComboBoxItem>GENERAL</ComboBoxItem>
+                            <ComboBoxItem>MAQUINADO</ComboBoxItem>
+                            <ComboBoxItem>PINTURA</ComboBoxItem>
+                            <ComboBoxItem>SOLDADURA</ComboBoxItem>
+                        </ComboBox>
+                        <TextBox x:Name="txtMAdd" Grid.Column="3" TextWrapping="Wrap" Grid.ColumnSpan="2" Canvas.Left="18" Canvas.Top="72" Width="206" Height="100"/>
+                        <Rectangle Height="25" Width="239" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF64CAFF"/>
+                        <Label Content="Agregar nuevo tip" Canvas.Left="10" Canvas.Top="-1"/>
+                    </Canvas>
+                    <Canvas x:Name="canvaMessageseEdit" Visibility="Hidden" Grid.Column="2" Margin="1640,0,0,278" Background="#FFE6E6E6" Height="302" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="239">
+                        <Label Content="Mensaje" Canvas.Left="10" Canvas.Top="39" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <Label Content="Categoria" Canvas.Left="10" Canvas.Top="185" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button x:Name="btnUpdateM" Content="Actualizar" Canvas.Left="174" Canvas.Top="272" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnUpdateM_Click"/>
+                        <ComboBox x:Name="cmbMEditCategoria" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="205" Canvas.Left="18" Canvas.Top="216">
+                            <ComboBoxItem>CORTE</ComboBoxItem>
+                            <ComboBoxItem>DETALLADO</ComboBoxItem>
+                            <ComboBoxItem>DOBLEZ</ComboBoxItem>
+                            <ComboBoxItem>GENERAL</ComboBoxItem>
+                            <ComboBoxItem>MAQUINADO</ComboBoxItem>
+                            <ComboBoxItem>PINTURA</ComboBoxItem>
+                            <ComboBoxItem>SOLDADURA</ComboBoxItem>
+                        </ComboBox>
+                        <TextBox x:Name="txtMEDit" Grid.Column="3" TextWrapping="Wrap" Grid.ColumnSpan="2" Canvas.Left="18" Canvas.Top="72" Width="206" Height="100"/>
+                        <Rectangle Height="25" Width="239" HorizontalAlignment="Center" VerticalAlignment="Top" Fill="#FF64CAFF"/>
+                        <Label Content="Editar tip" Canvas.Left="10" Canvas.Top="-1"/>
+                        <TextBox x:Name="oldMsg" Canvas.Left="103" TextWrapping="Wrap" Visibility="Hidden" Canvas.Top="43" Width="120"/>
+                    </Canvas>
                 </Grid>
             </TabItem>
 

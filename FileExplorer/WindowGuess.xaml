@@ -67,7 +67,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
@@ -185,7 +184,7 @@
                 <CheckBox x:Name="chkProcesos" Content="Descrip. de Procesos" Margin="421,108,0,0" IsEnabled="False" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="168" FontSize="14"/>
                 <CheckBox x:Name="chkModelado" Content="Modelado" Margin="635,108,0,0" IsEnabled="False" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="105" FontSize="14"/>
                 <CheckBox x:Name="chkPublicacion" Content="Publicación"  IsEnabled="False" Margin="819,108,0,0" Height="19" VerticalAlignment="Top" HorizontalAlignment="Left" Width="117" FontSize="14"/>
-                <TextBox x:Name="txtParte"  HorizontalAlignment="Left" Style="{StaticResource RoundedTextBoxStyle}" ToolTip="Propiedades No.Parte" Margin="18,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="24" BorderBrush="Black" Background="#FFC5C5C5" KeyDown="txtParte_KeyDown"/>
+                <TextBox x:Name="txtParte"  HorizontalAlignment="Left" Style="{StaticResource RoundedTextBoxStyle}" ToolTip="Propiedades No.Parte" Margin="18,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="24" BorderBrush="Black" Background="#FFC5C5C5" KeyDown="txtParte_KeyDown" FontSize="12" FontFamily="Arial" FontWeight="Normal"/>
                 <Button x:Name="btnParte" Style="{StaticResource RoundedButtonStyle}" Content="Buscar" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="24" Width="69" Background="White" BorderBrush="Black" Click="btnParte_Click"/>
 
             </Grid>
@@ -205,10 +204,11 @@
         <WebBrowser x:Name="wb" Margin="235,152,52,114" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="4" Focusable="False"/>
         <edrawing:EDrawingWPFControl x:Name="edrawingControl" Margin="221,135,0,101" HorizontalAlignment="Left" Width="1200" Grid.Column="3" Grid.RowSpan="4" Grid.ColumnSpan="4"/>
         <Rectangle Fill="#FFC5C5C5" Height="58" VerticalAlignment="Top" Grid.ColumnSpan="7" Margin="0,0,0,0"/>
+        <Image x:Name="imageTIF" Grid.Column="3"  Margin="221,135,0,101" HorizontalAlignment="Left" Width="1200" Grid.RowSpan="4" Grid.ColumnSpan="4" Stretch="Uniform"/>
 
         <Image Width="72"  Source="/image/logo1rb.png" Margin="5,0,0,0" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top"/>
         <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
-                Margin="159,9,0,0" Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="46" Foreground="{x:Null}" Grid.Column="6">
+                Margin="0,9,18,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="46" Foreground="{x:Null}" Grid.Column="6" HorizontalAlignment="Right" Width="40">
             <Image Source="/image/user.png" Height="50" Width="36" StretchDirection="DownOnly"/>
         </Button>
         <StackPanel x:Name="MenuItemsPanel" Visibility="Hidden" Margin="0,6,91,0" Width="NaN" VerticalAlignment="Top" Height="64" Grid.Column="6">
@@ -218,11 +218,6 @@
         </StackPanel>
         <TextBox x:Name="txtP" Visibility="Hidden" HorizontalAlignment="Left" Margin="85,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3" Grid.Column="1"/>
         <TextBox x:Name="txtFolder" Visibility="Hidden" HorizontalAlignment="Left" Margin="85,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" Height="17" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="1"/>
-        <Button x:Name="btnExport" Grid.Column="6" Content="Exportar" Margin="151,0,10,25" Grid.Row="4" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="49" VerticalAlignment="Bottom" Click="exportButton_Click">
-            <Button.Background>
-                <ImageBrush ImageSource="/image/export (1).png"/>
-            </Button.Background>
-        </Button>
         <ProgressBar x:Name="progressBar" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="62,112,0,0" VerticalAlignment="Top" Width="218" Background="{x:Null}" BorderBrush="{x:Null}" Value="{Binding Progress}"/>
         <GroupBox  FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Header="Resultados de busqueda" Grid.ColumnSpan="4" Margin="18,190,230,164" Grid.RowSpan="3" Grid.Row="1" BorderBrush="Black" Foreground="White">
             <Grid>
@@ -259,10 +254,10 @@
                     <ColumnDefinition Width="430*"/>
                     <ColumnDefinition Width="51*"/>
                 </Grid.ColumnDefinitions>
-                <Button Click="reloadTreeView_click" Height="34" Width="31" ToolTip="Carpeta Inicial" Margin="46,10,353,469">
+                <Button Click="reloadTreeView_click" Height="34" Width="31" ToolTip="Carpeta Inicial" Margin="0,10,419,0" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Image Source="image/home.png" Width="25" Height="24" RenderTransformOrigin="0.5,0.5"/>
                 </Button>
-                <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta" Margin="10,10,389,0" VerticalAlignment="Top">
+                <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta" Margin="0,10,455,0" VerticalAlignment="Top" HorizontalAlignment="Right">
                     <Image Source="image/back.png" Width="25" Height="23" RenderTransformOrigin="0.5,0.5"/>
                 </Button>
                 <TreeView x:Name="fileDisplay"  PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" Background="#FFC5C5C5" Margin="10,49,10,0" BorderBrush="Black" Grid.ColumnSpan="2">

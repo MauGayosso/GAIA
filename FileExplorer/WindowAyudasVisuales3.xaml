@@ -3,12 +3,11 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
 		xmlns:local="clr-namespace:FileExplorer"
 		xmlns:prop="clr-namespace:FileExplorer.Properties"
-        x:Class="FileExplorer.WindowAyudasVisuales2"
+        x:Class="FileExplorer.WindowAyudasVisuales3"
         mc:Ignorable="d"
-        Title="{Binding SelectedOption}" WindowState="Maximized" Width="1360" Height="768">
+        Title="{Binding SelectedOption}" WindowState="Maximized" Width="1440" Height="900">
 
     <Grid Height="auto" Width="auto">
         <Grid.Background>
@@ -109,11 +108,11 @@
             </ToolBar>
             <!-- Rest of your window content -->
         </DockPanel>
-        <WebBrowser x:Name="wb" Margin="475,127,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="836" Height="531" VerticalAlignment="Top"/>
+        <WebBrowser x:Name="wb" Margin="475,127,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="914" Height="702" VerticalAlignment="Top"/>
         <Rectangle Height="70" VerticalAlignment="Top" Fill="#FFC5C5C5" Margin="7,0,0,0"/>
         <Image HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="90" Source="/image/logo1rb.png" Grid.Column="3" Grid.ColumnSpan="2" Margin="9,0,0,0"/>
         <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
-                Margin="1279,10,0,0" Width="64" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="54" Foreground="{x:Null}">
+                Margin="1342,10,0,0" Width="64" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="54" Foreground="{x:Null}">
             <Image Source="/image/user.png" Height="50" Width="51" StretchDirection="DownOnly"/>
         </Button>
         <StackPanel x:Name="MenuItemsPanel"

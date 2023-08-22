@@ -5,9 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,135 +15,116 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Button = System.Windows.Controls.Button;
-using CheckBox = System.Windows.Controls.CheckBox;
 using Cursors = System.Windows.Input.Cursors;
 using Exception = System.Exception;
 using Label = System.Windows.Controls.Label;
 using MessageBox = System.Windows.MessageBox;
 using Path = System.IO.Path;
-using Window = System.Windows.Window;
 using RadioButton = System.Windows.Controls.RadioButton;
-
+using Window = System.Windows.Window;
 namespace FileExplorer
+
 {
 	/// <summary>
-	/// Lógica de interacción para WindowGuess.xaml
+	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class WindowGuess : Window
+	/// The variable Node.selectedBytes is to get the path from the checkbox selected ===> It can be modified but you need to do it in the file Node.cs
+	/// This project was made by https://github.com/MauGayosso - period 05/09/23 to 08/18/2023 for the enterprise Maquinados Industriales
+	public partial class MainWindow3 : Window
 	{
-		//
-		private RadioButton lastCheckedRadioButton = null;
-		public string nod;
 		public string SelectedOption { get; set; }
 		public string SelectedOption2 { get; set; }
+		private RadioButton lastCheckedRadioButton = null;
+		public string nod;
 		public string currentD;
-		//
 		List<string> itemsp = new List<string>();
 		List<string> itemsf = new List<string>();
-		//
 		public ObservableCollection<ItemAtts> ItemsAtts { get; set; }
-		//conection to database in access
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb";
 		List<string> listaAtts = new List<string>();
-
 		private EDrawingWPFControl eDrawingView;
-
 		private delegate Node ParseDirDelegate();
-
 		ObservableCollection<Node> treeCtx = new ObservableCollection<Node>();
 		Node firstNode;
-
 		public string parseDir
 		{
 			get { return (string)GetValue(parseDirProp); }
 			set { SetValue(parseDirProp, value); }
 		}
-
 		public static readonly DependencyProperty parseDirProp =
-			DependencyProperty.Register("parseDirGuess", typeof(string), typeof(WindowGuess), new PropertyMetadata(""));
-
+			DependencyProperty.Register("parseDir3", typeof(string), typeof(MainWindow2), new PropertyMetadata(""));
 		public int folders
 		{
 			get { return (int)GetValue(foldersProp); }
 			set { SetValue(foldersProp, value); }
 		}
-
 		public static readonly DependencyProperty foldersProp =
-			DependencyProperty.Register("foldersGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
-
+			DependencyProperty.Register("folders3", typeof(int), typeof(MainWindow2), new PropertyMetadata(0));
 		public int files
 		{
 			get { return (int)GetValue(filesProp); }
 			set { SetValue(filesProp, value); }
 		}
-
 		public static readonly DependencyProperty filesProp =
-			DependencyProperty.Register("filesGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
-
+			DependencyProperty.Register("files3", typeof(int), typeof(MainWindow2), new PropertyMetadata(0));
 		public int selectedFolders
 		{
 			get { return (int)GetValue(selectedFoldersProp); }
 			set { SetValue(selectedFoldersProp, value); }
 		}
-
 		public static readonly DependencyProperty selectedFoldersProp =
-			DependencyProperty.Register("selectedFoldersGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
-
+			DependencyProperty.Register("selectedFolders3", typeof(int), typeof(MainWindow2), new PropertyMetadata(0));
 		public int selectedFiles
 		{
 			get { return (int)GetValue(selectedFilesProp); }
 			set { SetValue(selectedFilesProp, value); }
 		}
-
 		public static readonly DependencyProperty selectedFilesProp =
-			DependencyProperty.Register("selectedFilesGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
-
+			DependencyProperty.Register("selectedFiles3", typeof(int), typeof(MainWindow2), new PropertyMetadata(0));
 		public string sizeInBytes
 		{
 			get { return (string)GetValue(sizeInBytesProp); }
 			set { SetValue(sizeInBytesProp, value); }
 		}
-
 		public static readonly DependencyProperty sizeInBytesProp =
-			DependencyProperty.Register("sizeInBytesGuess", typeof(string), typeof(WindowGuess), new PropertyMetadata((string)""));
-		public WindowGuess()
+			DependencyProperty.Register("sizeInBytes3", typeof(string), typeof(MainWindow2), new PropertyMetadata((string)""));
+
+		public MainWindow3()
 		{
-			InitializeComponent();
 			InitializeComponent();
 			LoadPathFile();
 			SelectedOption = "Consultas";
 			DataContext = this;
 			eDrawingView = edrawingControl;
 			ItemsAtts = new ObservableCollection<ItemAtts>();
-
 		}
 
 		public void LoadPathFile()
 		{
 			try
 			{
-				//parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Diseños/" + SelectedOption + " /";
+				//parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Diseños/" + SelectedOption + "/";
 				parseDir = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ING/" + SelectedOption + "/";
-				//parseDir = "D:/ING/CAF";
+
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+			
 			}
 		}
-
 		public void LoadImage(string path)
 		{
 			try
 			{
 				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/" + path));
+
 			}
 			catch
 			{
 				displayImage.Source = new BitmapImage(new Uri("//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/image/noimage.png"));
 			}
-		}
 
+		}
 		private void createFirstNode()
 		{
 			try
@@ -1162,11 +1141,11 @@ namespace FileExplorer
 				}
 				if (Path.GetExtension(textP).Length > 1)
 				{
-					Visualizar.IsEnabled = true;
+					ver.IsEnabled = true;
 				}
 				else
 				{
-					Visualizar.IsEnabled = false;
+					ver.IsEnabled = false;
 				}
 				attributesFiles(textP);
 				addGridAtts();

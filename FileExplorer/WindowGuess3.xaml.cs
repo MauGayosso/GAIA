@@ -31,7 +31,7 @@ namespace FileExplorer
 	/// <summary>
 	/// Lógica de interacción para WindowGuess.xaml
 	/// </summary>
-	public partial class WindowGuess : Window
+	public partial class WindowGuess3 : Window
 	{
 		//
 		private RadioButton lastCheckedRadioButton = null;
@@ -62,7 +62,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty parseDirProp =
-			DependencyProperty.Register("parseDirGuess", typeof(string), typeof(WindowGuess), new PropertyMetadata(""));
+			DependencyProperty.Register("parseDirGuess3", typeof(string), typeof(WindowGuess), new PropertyMetadata(""));
 
 		public int folders
 		{
@@ -71,7 +71,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty foldersProp =
-			DependencyProperty.Register("foldersGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
+			DependencyProperty.Register("foldersGuess3", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
 		public int files
 		{
@@ -80,7 +80,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty filesProp =
-			DependencyProperty.Register("filesGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
+			DependencyProperty.Register("filesGuess3", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
 		public int selectedFolders
 		{
@@ -89,7 +89,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty selectedFoldersProp =
-			DependencyProperty.Register("selectedFoldersGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
+			DependencyProperty.Register("selectedFoldersGuess3", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
 		public int selectedFiles
 		{
@@ -98,7 +98,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty selectedFilesProp =
-			DependencyProperty.Register("selectedFilesGuess", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
+			DependencyProperty.Register("selectedFilesGuess3", typeof(int), typeof(WindowGuess), new PropertyMetadata(0));
 
 		public string sizeInBytes
 		{
@@ -107,8 +107,8 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty sizeInBytesProp =
-			DependencyProperty.Register("sizeInBytesGuess", typeof(string), typeof(WindowGuess), new PropertyMetadata((string)""));
-		public WindowGuess()
+			DependencyProperty.Register("sizeInBytesGuess3", typeof(string), typeof(WindowGuess), new PropertyMetadata((string)""));
+		public WindowGuess3()
 		{
 			InitializeComponent();
 			InitializeComponent();
@@ -130,7 +130,6 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -1162,11 +1161,11 @@ namespace FileExplorer
 				}
 				if (Path.GetExtension(textP).Length > 1)
 				{
-					Visualizar.IsEnabled = true;
+					ver.IsEnabled = true;
 				}
 				else
 				{
-					Visualizar.IsEnabled = false;
+					ver.IsEnabled = false;
 				}
 				attributesFiles(textP);
 				addGridAtts();

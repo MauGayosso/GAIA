@@ -213,9 +213,8 @@
                 <CheckBox x:Name="chkProcesos" Content="Descrip. de Procesos" Margin="421,108,0,0" IsEnabled="False" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="168" FontSize="14"/>
                 <CheckBox x:Name="chkModelado" Content="Modelado" Margin="635,108,0,0" IsEnabled="False" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="105" FontSize="14"/>
                 <CheckBox x:Name="chkPublicacion" Content="Publicación"  IsEnabled="False" Margin="819,108,0,0" Height="19" VerticalAlignment="Top" HorizontalAlignment="Left" Width="117" FontSize="14"/>
-                <TextBox x:Name="txtParte"  HorizontalAlignment="Left" Style="{StaticResource RoundedTextBoxStyle}" ToolTip="Propiedades No.Parte" Margin="18,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="24" BorderBrush="Black" Background="#FFC5C5C5" KeyDown="txtParte_KeyDown"/>
+                <TextBox x:Name="txtParte"  HorizontalAlignment="Left" Style="{StaticResource RoundedTextBoxStyle}" ToolTip="Propiedades No.Parte" Margin="18,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="24" BorderBrush="Black" Background="#FFC5C5C5" KeyDown="txtParte_KeyDown" FontSize="12" FontFamily="Arial" FontWeight="Normal"/>
                 <Button x:Name="btnParte" Style="{StaticResource RoundedButtonStyle}" Content="Buscar" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="24" Width="69" Background="White" BorderBrush="Black" Click="btnParte_Click"/>
-
             </Grid>
         </GroupBox>
         <GroupBox FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Margin="18,38,10,69" Grid.Row="3" Header="Contenido de la carpeta" Foreground="White" BorderBrush="Black">
@@ -297,13 +296,13 @@
                     <ColumnDefinition Width="430*"/>
                     <ColumnDefinition Width="51*"/>
                 </Grid.ColumnDefinitions>
-                <Button Click="reloadTreeView_click" Height="34" Width="31" ToolTip="Carpeta Inicial" Margin="46,10,353,469">
+                <Button Click="reloadTreeView_click" Height="34" Width="31" ToolTip="Carpeta Inicial" Margin="0,10,387,0" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Image Source="image/home.png" Width="25" Height="24" RenderTransformOrigin="0.5,0.5"/>
                 </Button>
-                <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta" Margin="10,10,389,0" VerticalAlignment="Top">
+                <Button Click="backTreeView_click" Height="34" Width="31" ToolTip="Regresar carpeta" Margin="0,10,423,0" VerticalAlignment="Top" HorizontalAlignment="Right">
                     <Image Source="image/back.png" Width="25" Height="23" RenderTransformOrigin="0.5,0.5"/>
                 </Button>
-                <TreeView x:Name="fileDisplay" PreviewMouseLeftButtonDown="fileDisplay_PreviewMouseLeftButtonDown" MouseLeftButtonUp="fileDisplay_MouseLeftButtonDown" PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" Background="#FFC5C5C5" Margin="10,49,10,0" BorderBrush="Black" Grid.ColumnSpan="2">
+                <TreeView x:Name="fileDisplay" PreviewMouseDoubleClick="viewTree_PreviewMouseRightClickDown" Background="#FFC5C5C5" Margin="10,49,10,0" BorderBrush="Black" Grid.ColumnSpan="2" FontSize="12">
                     <TreeView.Resources>
                         <ContextMenu x:Key="TreeViewContextMenu" x:Name="TreeViewContextMenu">
                             <MenuItem Header="Open" Click="MenuItem_Click"/>

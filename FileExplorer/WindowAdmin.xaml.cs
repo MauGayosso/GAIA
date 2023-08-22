@@ -21,25 +21,24 @@ namespace FileExplorer
 		public ObservableCollection<ItemDataUsers> ItemsUsers { get; set; }
 		public ObservableCollection<ItemDataTip> ItemTips { get; set; }
 
+		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb;";
 
-		Dictionary<string, string> clients = new Dictionary<string, string>();
 		Dictionary<string, string> usuarios = new Dictionary<string, string>();
 		Dictionary<string, string> tips = new Dictionary<string, string>();
 		List<Tuple<string, string, string>> usuariosL = new List<Tuple<string, string, string>>();
-		public Tuple<string, string, string> tupleUsers { get; set; }
 
+		public Tuple<string, string, string> tupleUsers { get; set; }
 		public WindowAdmin()
 		{
 			InitializeComponent();
 			Items = new ObservableCollection<ItemData>();
 			ItemsUsers = new ObservableCollection<ItemDataUsers>();
 			ItemTips = new ObservableCollection<ItemDataTip>();
-			addItemsClientes();
 			addItemUsers();
 			addItemsTips();
+			// Load Grid with info
 			addToGridUsers();
-			addToGridClient();
 			addToGridTips();
 		}
 
@@ -51,162 +50,220 @@ namespace FileExplorer
 		}
 		private void addToGridTips()
 		{
-			foreach (var tip in tips)
+			try
 			{
-				ItemTips.Add(new ItemDataTip { Message = tip.Key, Category = tip.Value, EditCommand = new RelayCommand(EditItemTip), DeleteCommand = new RelayCommand(DeleteItemTip) });
+				foreach (var tip in tips)
+				{
+					ItemTips.Add(new ItemDataTip { Message = tip.Key, Category = tip.Value, EditCommand = new RelayCommand(EditItemTip), DeleteCommand = new RelayCommand(DeleteItemTip) });
+				}
+				dynamicTableTips.ItemsSource = ItemTips;
 			}
-			dynamicTableTips.ItemsSource = ItemTips;
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 		private void addToGridUsers()
 		{
-			foreach (var user in usuariosL)
+			try
 			{
-				ItemsUsers.Add(new ItemDataUsers { Name = user.Item1, Password = user.Item2, Rol = user.Item3, EditCommand = new RelayCommand(EditItemUser), DeleteCommand = new RelayCommand(DeleteItemUsers) }); ;
-			}
-			dynamicTableUsers.ItemsSource = ItemsUsers;
-		}
-		private void addToGridClient()
-		{
-			foreach (var clien in clients)
-			{
-				Items.Add(new ItemData { Name = clien.Key, PathClient = clien.Value, EditCommand = new RelayCommand(EditItem), DeleteCommand = new RelayCommand(DeleteItem) });
-			}
-			dynamicTable.ItemsSource = Items;
-		}
-		private void addItemsClientes()
-		{
-			var query = "SELECT * FROM clientes";
-			using (OleDbConnection connection = new OleDbConnection(connectionString))
-			{
-				connection.Open();
-				OleDbCommand command = new OleDbCommand(query, connection);
-				command.ExecuteNonQuery();
-				OleDbDataReader reader = command.ExecuteReader();
-				while (reader.Read())
+				foreach (var user in usuariosL)
 				{
-					clients.Add(reader.GetValue(0).ToString(), reader.GetValue(1).ToString());
+					ItemsUsers.Add(new ItemDataUsers { Name = user.Item1, Password = user.Item2, Rol = user.Item3, EditCommand = new RelayCommand(EditItemUser), DeleteCommand = new RelayCommand(DeleteItemUsers) }); ;
 				}
-				reader.Close();
-				connection.Close();
+
+				dynamicTableUsers.ItemsSource = ItemsUsers;
 			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 
 		private void addItemUsers()
 		{
-			var query = "SELECT * FROM usuarios";
-			using (OleDbConnection connection = new OleDbConnection(connectionString))
+			try
 			{
-				connection.Open();
-				OleDbCommand command = new OleDbCommand(query, connection);
-				command.ExecuteNonQuery();
-				OleDbDataReader reader = command.ExecuteReader();
-				while (reader.Read())
+				ItemsUsers.Clear();
+				var query = "SELECT * FROM usuarios";
+				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
-					tupleUsers = Tuple.Create(reader.GetValue(0).ToString(), reader.GetValue(1).ToString(), reader.GetValue(2).ToString());
-					usuariosL.Add(tupleUsers);
+					connection.Open();
+					OleDbCommand command = new OleDbCommand(query, connection);
+					command.ExecuteNonQuery();
+
+					OleDbDataReader reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						//usuariosL.Add(reader.GetValue(0).ToString());
+						//usuariosL.Add(reader.GetValue(1).ToString());
+						//usuariosL.Add(reader.GetValue(2).ToString());
+						//tupleUsers = Tuple.Create(reader.GetValue(0).ToString(), reader.GetValue(1).ToString(), reader.GetValue(2).ToString());
+						tupleUsers = Tuple.Create(reader.GetValue(0).ToString(), reader.GetValue(1).ToString(), reader.GetValue(2).ToString());
+						usuariosL.Add(tupleUsers);
+						//usuarios.Add(reader.GetValue(0).ToString(), reader.GetValue(1).ToString());
+					}
+					reader.Close();
+					connection.Close();
 				}
-				reader.Close();
-				connection.Close();
 			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 
 		private void addItemsTips()
 		{
-			var query = "SELECT * FROM messages";
-			using (OleDbConnection connection = new OleDbConnection(connectionString))
+			try
 			{
-				connection.Open();
-				OleDbCommand command = new OleDbCommand(query, connection);
-				command.ExecuteNonQuery();
-				OleDbDataReader reader = command.ExecuteReader();
-				while (reader.Read())
+				ItemTips.Clear();
+				var query = "SELECT * FROM messages";
+				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
-					tips.Add(reader.GetValue(0).ToString(), reader.GetValue(1).ToString());
+					connection.Open();
+					OleDbCommand command = new OleDbCommand(query, connection);
+					command.ExecuteNonQuery();
+
+					OleDbDataReader reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						tips.Add(reader.GetValue(0).ToString(), reader.GetValue(1).ToString());
+					}
+					reader.Close();
+					connection.Close();
 				}
-				reader.Close();
-				connection.Close();
 			}
-		}
-
-		private void UpdateCiente(string id)
-		{ }
-
-		private void EditItem(object item)
-		{
-			ItemData selectedItem = (ItemData)item;
-			txtEditCliente.Text = selectedItem.Name;
-			txtEditPathClient.Text = selectedItem.PathClient;
-			if (editClientCanva.Visibility == Visibility.Hidden)
+			catch (Exception ex)
 			{
-				editClientCanva.Visibility = Visibility.Visible;
+				MessageBox.Show(ex.Message);
+			}
+
+		}
+
+		// EDIT BUTTON TIP 
+		private void EditItemTip(object ItemTips)
+		{
+			try
+			{
+				ItemDataTip selectedItem = (ItemDataTip)ItemTips;
+				oldMsg.Text = selectedItem.Message;
+				txtMEDit.Text = selectedItem.Message;
+				cmbMEditCategoria.Text = selectedItem.Category;
+				if (canvaMessageseEdit.Visibility == Visibility.Hidden)
+				{
+					canvaMessageseEdit.Visibility = Visibility.Visible;
+				}
+				else if (canvaMessageseEdit.Visibility == Visibility.Visible)
+				{
+					canvaMessageseEdit.Visibility = Visibility.Hidden;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
 			}
 		}
 
-		private void EditItemTip()
-		{ }
+		//EDIT BUTTON USER
 
 		private void EditItemUser(object item)
 		{
-			ItemDataUsers selectedItem = (ItemDataUsers)item;
-			txtEditUser.Text = selectedItem.Name;
-			txtPassword.Text = selectedItem.Password;
-			cmbEditRol.Text = selectedItem.Rol;
-			if (editUsersCanva.Visibility == Visibility.Hidden)
+			try
 			{
-				editUsersCanva.Visibility = Visibility.Visible;
-			}
-		}
-
-		private void DeleteItem(object item)
-		{
-			ItemData selectedItem = (ItemData)item;
-			MessageBoxResult result = MessageBox.Show("¿Estas seguro de eliminar el cliente : " + selectedItem.Name + "?", "Eliminar", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-			if (result == MessageBoxResult.OK)
-			{
-				string query = "DELETE FROM clientes WHERE id_usuario = ?";
-				using (OleDbConnection connection = new OleDbConnection(connectionString))
+				ItemDataUsers selectedItem = (ItemDataUsers)item;
+				txtEditUser.Text = selectedItem.Name;
+				txtEditNewUser.Text = selectedItem.Name;
+				txtPassword.Text = selectedItem.Password;
+				cmbEditRol.Text = selectedItem.Rol;
+				if (editUsersCanva.Visibility == Visibility.Hidden)
 				{
-					connection.Open();
-					using (OleDbCommand command = new OleDbCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@id_usuario", selectedItem.Name);
-						int rows = command.ExecuteNonQuery();
-					}
+					editUsersCanva.Visibility = Visibility.Visible;
 				}
-				clients.Clear();
-				Items.Clear();
-				dynamicTable.ItemsSource = null;
-				addItemsClientes();
-				addToGridClient();
 			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 
+		// DELETE BUTTON TO USERS
 		private void DeleteItemUsers(object itemUsers)
 		{
-			ItemDataUsers selectedItem = (ItemDataUsers)itemUsers;
-			MessageBoxResult result = MessageBox.Show("¿Estas seguro de eliminar el cliente : " + selectedItem.Name + "?", "Eliminar", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-			if (result == MessageBoxResult.OK)
+			try
 			{
-				string query = "DELETE FROM usuarios WHERE id_usuario = ?";
-				using (OleDbConnection connection = new OleDbConnection(connectionString))
+				// Handle delete command here
+				ItemDataUsers selectedItem = (ItemDataUsers)itemUsers;
+				MessageBoxResult result = MessageBox.Show("¿Estas seguro de eliminar el cliente : " + selectedItem.Name + "?", "Eliminar", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.OK)
 				{
-					connection.Open();
-					using (OleDbCommand command = new OleDbCommand(query, connection))
+					string query = "DELETE FROM usuarios WHERE id_usuario = ?";
+
+					using (OleDbConnection connection = new OleDbConnection(connectionString))
 					{
-						command.Parameters.AddWithValue("@id_usuario", selectedItem.Name);
-						int rows = command.ExecuteNonQuery();
+						connection.Open();
+
+						using (OleDbCommand command = new OleDbCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@id_usuario", selectedItem.Name);
+							int rows = command.ExecuteNonQuery();
+						}
+						connection.Close();
 					}
+					usuarios.Clear();
+					ItemsUsers.Clear();
+					usuariosL.Clear();
+					dynamicTableUsers.ItemsSource = null;
+					addItemUsers();
+					addToGridUsers();
 				}
-				usuarios.Clear();
-				ItemsUsers.Clear();
-				dynamicTableUsers.ItemsSource = null;
-				addItemUsers();
-				addToGridUsers();
 			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 
-		private void DeleteItemTip()
-		{ }
+		// DELETE BUTTON TO TIPS
+
+		private void DeleteItemTip(object ItemTips)
+		{
+			try
+			{
+				// Handle delete command here
+				ItemDataTip selectedItem = (ItemDataTip)ItemTips;
+				MessageBoxResult result = MessageBox.Show("¿Estas seguro de eliminar el elemento : " + selectedItem.Message + "?", "Eliminar", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+				if (result == MessageBoxResult.OK)
+				{
+					string query = "DELETE FROM messages WHERE msg = ?";
+
+					using (OleDbConnection connection = new OleDbConnection(connectionString))
+					{
+						connection.Open();
+
+						using (OleDbCommand command = new OleDbCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@msg", selectedItem.Message);
+							int rows = command.ExecuteNonQuery();
+						}
+						connection.Close();
+					}
+					dynamicTableTips.ItemsSource = null;
+					tips.Clear();
+					addItemsTips();
+					addToGridTips();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
 
 		private void HamburgerButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -218,13 +275,21 @@ namespace FileExplorer
 			{
 				MenuItemsPanel.Visibility = Visibility.Visible;
 			}
-		}
 
+		}
 		private void MenuClick(object sender, RoutedEventArgs e)
 		{
-			WindowOptions win = new WindowOptions();
-			win.Show();
-			Close();
+			try
+			{
+				WindowOptions win = new WindowOptions();
+				win.Show();
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 
 		private void ExitClick(object sender, RoutedEventArgs e)
@@ -237,117 +302,66 @@ namespace FileExplorer
 
 		}
 
-		private void btnReload_Click(object sender, RoutedEventArgs e)
-		{
-			clients.Clear();
-			Items.Clear();
-			dynamicTable.ItemsSource = null;
-			addItemsClientes();
-			addToGridClient();
-		}
 
+		//BUTTON RELOAD USERS PAGE
 		private void btnReloadUsers_Click_1(object sender, RoutedEventArgs e)
 		{
-			usuarios.Clear();
-			ItemsUsers.Clear();
-			usuariosL.Clear();
-			dynamicTableUsers.ItemsSource = null;
-			addItemUsers();
-			addToGridUsers();
-		}
-
-		private void btnSelectFolderCliente_Click(object sender, RoutedEventArgs e)
-		{
-			using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+			try
 			{
-				DialogResult result = folderBrowserDialog.ShowDialog();
-				if (result == System.Windows.Forms.DialogResult.OK)
-				{
-					string folderPath = folderBrowserDialog.SelectedPath;
-					txtPath.Text = folderPath;
-				}
+				usuarios.Clear();
+				ItemsUsers.Clear();
+				usuariosL.Clear();
+				dynamicTableUsers.ItemsSource = null;
+				addItemUsers();
+				addToGridUsers();
 			}
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			if (txtPath.Text == null)
+			catch (Exception ex)
 			{
-				MessageBox.Show("Selecciona una carpeta", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-			}
-			else if (txtNameInsertClient.Text == null)
-			{
-				MessageBox.Show("Nombre faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-			}
-			else
-			{
-				var query = "insert into clientes (id_usuario,path_cliente) values (@id_usuario,@path_cliente)";
-				using (OleDbConnection connection = new OleDbConnection(connectionString))
-				{
-					connection.Open();
-
-					using (OleDbCommand command = new OleDbCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@id_usuario", txtNameInsertClient.Text);
-						command.Parameters.AddWithValue("@path_cliente", txtPath.Text);
-						command.ExecuteNonQuery();
-					}
-				}
-				clients.Clear();
-				Items.Clear();
-				dynamicTable.ItemsSource = null;
-				addItemsClientes();
-				addToGridClient();
-			}
-
-		}
-
-		private void btnAddClient_Click(object sender, RoutedEventArgs e)
-		{
-			if (canvaCliente.Visibility == Visibility.Hidden)
-			{
-				btnAddClient.BorderBrush = Brushes.Red;
-				btnAddClient.BorderThickness = new Thickness(2);
-				canvaCliente.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				btnAddClient.BorderBrush = Brushes.Green;
-				btnAddClient.BorderThickness = new Thickness(2);
-				canvaCliente.Visibility = Visibility.Hidden;
+				MessageBox.Show(ex.Message);
 			}
 		}
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			if (txtUsuario.Text == null)
+			try
 			{
-				MessageBox.Show("Usuario faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-			}
-			else if (txtContraUsusario.Text == null)
-			{
-				MessageBox.Show("Contraseña faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-			}
-			else
-			{
-				string query = "INSERT INTO [usuarios] ([id_usuario], [password], [rol_user]) VALUES (@id,@pass,@rol_u)";
-				using (OleDbConnection connection = new OleDbConnection(connectionString))
+				if (txtUsuario.Text == null)
 				{
-					connection.Open();
-
-					using (OleDbCommand command = new OleDbCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@id", txtUsuario.Text);
-						command.Parameters.AddWithValue("@pass", txtContraUsusario.Text);
-						command.Parameters.AddWithValue("@rol_u", cmbRol.Text);
-						command.ExecuteNonQuery();
-					}
+					MessageBox.Show("Usuario faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 				}
-				usuarios.Clear();
-				ItemsUsers.Clear();
-				dynamicTableUsers.ItemsSource = null;
-				addItemUsers();
-				addToGridUsers();
+				else if (txtContraUsusario.Text == null)
+				{
+					MessageBox.Show("Contraseña faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				}
+				else
+				{
+					string query = "INSERT INTO [usuarios] ([id_usuario], [password], [rol_user]) VALUES (@id,@pass,@rol_u)";
+
+					using (OleDbConnection connection = new OleDbConnection(connectionString))
+					{
+						connection.Open();
+
+						using (OleDbCommand command = new OleDbCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@id", txtUsuario.Text);
+							command.Parameters.AddWithValue("@pass", txtContraUsusario.Text);
+							command.Parameters.AddWithValue("@rol_u", cmbRol.Text);
+							command.ExecuteNonQuery();
+						}
+					}
+
+					usuarios.Clear();
+					usuariosL.Clear();
+					ItemsUsers.Clear();
+					dynamicTableUsers.ItemsSource = null;
+					addItemUsers();
+					addToGridUsers();
+					canvaUsers.Visibility = Visibility.Hidden;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -364,56 +378,6 @@ namespace FileExplorer
 				btnAddUsers.BorderBrush = Brushes.Red;
 				btnAddUsers.BorderThickness = new Thickness(2);
 				canvaUsers.Visibility = Visibility.Hidden;
-			}
-		}
-
-		private void btnEditPathCliente_Click(object sender, RoutedEventArgs e)
-		{
-			using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
-			{
-				DialogResult result = folderBrowserDialog.ShowDialog();
-				if (result == System.Windows.Forms.DialogResult.OK)
-				{
-					string folderPath = folderBrowserDialog.SelectedPath;
-					txtEditPathClient.Text = folderPath;
-				}
-			}
-		}
-
-		private void Button_Click_2(object sender, RoutedEventArgs e)
-		{
-			if (txtEditPathClient is null || txtEditCliente is null || txtNewNameCliente is null)
-			{
-				MessageBox.Show("Datos faltantes");
-			}
-			else
-			{
-				string query = "UPDATE clientes SET id_usuario = ?, path_cliente = ? WHERE id_usuario = @value1";
-				using (OleDbConnection connection = new OleDbConnection(connectionString))
-				{
-					connection.Open();
-					using (OleDbCommand command = new OleDbCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@id_usuario", txtNewNameCliente.Text);
-						command.Parameters.AddWithValue("@path_cliente", txtEditPathClient.Text);
-						command.Parameters.AddWithValue("value1", txtEditCliente.Text);
-						int rows = command.ExecuteNonQuery();
-						if (rows > 0)
-						{
-							MessageBox.Show("Actualizado correctamente", "Ok", MessageBoxButton.OK, MessageBoxImage.Information);
-							clients.Clear();
-							Items.Clear();
-							dynamicTable.ItemsSource = null;
-							addItemsClientes();
-							addToGridClient();
-							editClientCanva.Visibility = Visibility.Hidden;
-						}
-						else
-						{
-							MessageBox.Show("Error al actualizar valor", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-						}
-					}
-				}
 			}
 		}
 
@@ -436,12 +400,14 @@ namespace FileExplorer
 				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
 					connection.Open();
+
 					using (OleDbCommand command = new OleDbCommand(query, connection))
 					{
 						command.Parameters.AddWithValue("@id_usuario", newuser);
 						command.Parameters.AddWithValue("@password", passu);
 						command.Parameters.AddWithValue("@rol_user", rolu);
 						command.Parameters.AddWithValue("value1", olduser);
+
 						int rows = command.ExecuteNonQuery();
 						if (rows > 0)
 						{
@@ -461,11 +427,127 @@ namespace FileExplorer
 						}
 					}
 				}
+
 			}
 			catch (Exception)
 			{
 			}
 		}
+
+
+		private void btnAgg_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				if (txtMAdd.Text == null)
+				{
+					MessageBox.Show("Usuario faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				}
+				else if (cmbMCategoria.Text == null)
+				{
+					MessageBox.Show("Contraseña faltante", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				}
+				else
+				{
+					string query = "INSERT INTO [messages] ([msg], [category]) VALUES (@idm, @categorym)";
+
+					using (OleDbConnection connection = new OleDbConnection(connectionString))
+					{
+						connection.Open();
+
+						using (OleDbCommand command = new OleDbCommand(query, connection))
+						{
+							command.Parameters.AddWithValue("@idm", txtMAdd.Text);
+							command.Parameters.AddWithValue("@categorym", cmbMCategoria.Text);
+							command.ExecuteNonQuery();
+							MessageBox.Show("Agregado correctamente", "Ok", MessageBoxButton.OK, MessageBoxImage.Information);
+							canvaMessages.Visibility = Visibility.Hidden;
+							dynamicTableTips.ItemsSource = null;
+							tips.Clear();
+							ItemTips.Clear();
+							addItemsTips();
+							addToGridTips();
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Tip duplicado, intentelo de nuevo");
+			}
+
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (canvaMessages.Visibility == Visibility.Visible)
+			{
+				canvaMessages.Visibility = Visibility.Hidden;
+			}
+			else if (canvaMessages.Visibility == Visibility.Hidden)
+			{
+				canvaMessages.Visibility = Visibility.Visible;
+			}
+		}
+
+		private void btnReloadTips_Click(object sender, RoutedEventArgs e)
+		{
+			dynamicTableTips.ItemsSource = null;
+			tips.Clear();
+			ItemTips.Clear();
+			addItemsTips();
+			addToGridTips();
+		}
+
+		private void btnUpdateM_Click(object sender, RoutedEventArgs e)
+		{
+			string oldMs = oldMsg.Text;
+			string newTip = txtMEDit.Text;
+			string cate = cmbMEditCategoria.Text;
+
+			if (string.IsNullOrEmpty(newTip) ||
+				string.IsNullOrEmpty(cate))
+			{
+				MessageBox.Show("Datos faltantes");
+				return;
+			}
+
+			string query = "UPDATE messages SET msg = @msg_n, category = @categ WHERE msg = @value1";
+			try
+			{
+				using (OleDbConnection connection = new OleDbConnection(connectionString))
+				{
+					connection.Open();
+
+					using (OleDbCommand command = new OleDbCommand(query, connection))
+					{
+						command.Parameters.AddWithValue("@msg_n", newTip);
+						command.Parameters.AddWithValue("@categ", cate);
+						command.Parameters.AddWithValue("value1", oldMs);
+
+						int rows = command.ExecuteNonQuery();
+						if (rows > 0)
+						{
+							MessageBox.Show("Actualizado correctamente", "Ok", MessageBoxButton.OK, MessageBoxImage.Information);
+							canvaMessageseEdit.Visibility = Visibility.Hidden;
+							dynamicTableTips.ItemsSource = null;
+							tips.Clear();
+							ItemTips.Clear();
+							addItemsTips();
+							addToGridTips();
+						}
+						else if (rows < 1)
+						{
+							MessageBox.Show("Error al actualizar valor", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+						}
+					}
+				}
+
+			}
+			catch (Exception err)
+			{
+				MessageBox.Show(err.Message);
+			}
+		}
 	}
 }
-

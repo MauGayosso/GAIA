@@ -3,7 +3,6 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
 		xmlns:local="clr-namespace:FileExplorer"
 		xmlns:prop="clr-namespace:FileExplorer.Properties"
         x:Class="FileExplorer.WindowAyudasVisuales"
@@ -49,16 +48,16 @@
             </TreeView.Resources>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding children}">
-                    <RadioButton x:Name="chkb" Click="chk_clicked" IsChecked="{Binding isChecked}" Cursor="Hand" Background="#FFCECECE">
+                    <RadioButton x:Name="chkb" Click="chk_clicked" IsChecked="{Binding isChecked}" Cursor="Hand">
                         <RadioButton.Template>
-                            <ControlTemplate TargetType="RadioButton">
+                            <ControlTemplate TargetType="{x:Type RadioButton}">
                                 <StackPanel x:Name="myStack" HorizontalAlignment="Left" Orientation="Horizontal" Background="#FFCECECE">
                                     <Image Source="{Binding iconLoc}" Width="18"/>
                                     <Label x:Name="lbl" Content="{Binding name}"/>
                                 </StackPanel>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsChecked" Value="True">
-                                        <Setter TargetName="myStack" Property="Background" Value="#FFEDFF46"/>
+                                        <Setter TargetName="myStack" Property="Background" Value="#FF03CBFF"/>
                                     </Trigger>
                                     <Trigger Property="IsChecked" Value="False">
                                         <Setter TargetName="myStack" Property="Background" Value="#FFCECECE"/>
@@ -110,8 +109,7 @@
             <!-- Rest of your window content -->
         </DockPanel>
         <WebBrowser x:Name="wb"  Height="864" VerticalAlignment="Top" Margin="474,127,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="1396"/>
-        <notifications:NotificationArea x:Name="WindowArea" Position="BottomLeft"  MaxItems="1" Margin="1,547,7,73" Grid.Row="1"/>
-        <Rectangle HorizontalAlignment="Right" Height="70" VerticalAlignment="Top" Width="1916" Fill="#FF3E3939" Opacity="0.4" Margin="0,0,0,0"/>
+        <Rectangle Height="70" VerticalAlignment="Top" Fill="#FFC5C5C5"/>
         <Image HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="90" Source="/image/logo1rb.png" Grid.Column="3" Grid.ColumnSpan="2" Margin="9,0,0,0"/>
         <Button x:Name="HamburgerButton" Click="HamburgerButton_Click"
                 Margin="1846,10,0,0" Width="64" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Height="54" Foreground="{x:Null}">

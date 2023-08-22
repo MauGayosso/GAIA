@@ -22,7 +22,7 @@ namespace FileExplorer
 	/// <summary>
 	/// Lógica de interacción para WindowAyudasVisuales.xaml
 	/// </summary>
-	public partial class WindowAyudasVisuales2 : Window
+	public partial class WindowAyudasVisuales3 : Window
 	{
 		private RadioButton lastCheckedRadioButton = null;
 		public string nod;
@@ -35,8 +35,7 @@ namespace FileExplorer
 		List<string> mensajes = new List<string>();
 
 		private delegate Node ParseDirDelegate();
-		// Notifications
-		private readonly DispatcherTimer timer = new DispatcherTimer();
+		// Notification
 
 		//tree display source
 		ObservableCollection<Node> treeCtx = new ObservableCollection<Node>();
@@ -50,7 +49,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty parseDirProp =
-			DependencyProperty.Register("parseDirCorte2", typeof(string), typeof(WindowAyudasVisuales2), new PropertyMetadata(""));
+			DependencyProperty.Register("parseDirCorte3", typeof(string), typeof(WindowAyudasVisuales2), new PropertyMetadata(""));
 
 		public int folders
 		{
@@ -59,7 +58,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty foldersProp =
-			DependencyProperty.Register("foldersCorte2", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
+			DependencyProperty.Register("foldersCorte3", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
 
 		public int files
 		{
@@ -68,7 +67,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty filesProp =
-			DependencyProperty.Register("filesCorte2", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
+			DependencyProperty.Register("filesCorte3", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
 
 		public int selectedFolders
 		{
@@ -77,7 +76,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty selectedFoldersProp =
-			DependencyProperty.Register("selectedFoldersCorte2", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
+			DependencyProperty.Register("selectedFoldersCorte3", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
 
 		public int selectedFiles
 		{
@@ -86,7 +85,7 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty selectedFilesProp =
-			DependencyProperty.Register("selectedFilesCorte2", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
+			DependencyProperty.Register("selectedFilesCorte3", typeof(int), typeof(WindowAyudasVisuales2), new PropertyMetadata(0));
 
 		public string sizeInBytes
 		{
@@ -95,10 +94,10 @@ namespace FileExplorer
 		}
 
 		public static readonly DependencyProperty sizeInBytesProp =
-			DependencyProperty.Register("sizeInBytesCorte2", typeof(string), typeof(WindowAyudasVisuales2), new PropertyMetadata((string)""));
+			DependencyProperty.Register("sizeInBytesCorte3", typeof(string), typeof(WindowAyudasVisuales2), new PropertyMetadata((string)""));
 		private string MODELPATH = Node.selectedBytes;
 		//Dependancy properties for all labels
-		public WindowAyudasVisuales2()
+		public WindowAyudasVisuales3()
 		{
 			InitializeComponent();
 			LoadPathFile();
@@ -165,6 +164,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 		}
 		private void createFirstNode()
@@ -191,6 +191,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 
 		}
@@ -208,6 +209,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -223,6 +225,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 
 		}
@@ -238,6 +241,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 
 		}
@@ -265,6 +269,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 
 		}
@@ -330,6 +335,7 @@ namespace FileExplorer
 			}
 			catch (Exception ex)
 			{
+				MessageBox.Show(ex.Message);
 			}
 
 		}
@@ -351,7 +357,6 @@ namespace FileExplorer
 			try
 			{
 				string pathF = Node.selectedBytes;
-				timer.Stop();
 			}
 			catch (Exception ex)
 			{
@@ -387,7 +392,6 @@ namespace FileExplorer
 			{
 				//MainWindow winMain = new MainWindow();
 				//winMain.Close();
-				timer.Stop();
 				WindowOptionsAV win = new WindowOptionsAV();
 				win.Show();
 				Close();
@@ -403,7 +407,6 @@ namespace FileExplorer
 		{
 			try
 			{
-				timer.Stop();
 				Close();
 			}
 			catch (Exception ex)
@@ -488,7 +491,6 @@ namespace FileExplorer
 		{
 			try
 			{
-				timer.Stop();
 				WindowLogin win = new WindowLogin();
 				win.Show();
 				Close();

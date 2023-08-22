@@ -1,5 +1,4 @@
 ﻿
-using Notifications.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +12,13 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Label = System.Windows.Controls.Label;
+using MessageBox = System.Windows.Forms.MessageBox;
 using Path = System.IO.Path;
+using RadioButton = System.Windows.Controls.RadioButton;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using System.Windows.Media.Imaging;
 
 namespace FileExplorer
 {
@@ -22,7 +27,17 @@ namespace FileExplorer
 	/// </summary>
 	public partial class WindowAyudasVisuales : Window
 	{
+		private System.Windows.Threading.DispatcherTimer timer;
+		private int currentMessageIndex = 0;
+
+
+		private RadioButton lastCheckedRadioButton = null;
+
+		public string nod;
+
 		public string SelectedOption { get; set; }
+		public string SelectedOption2 { get; set; }
+
 		public static System.Windows.Media.Color WindowGlassColor { get; }
 		//string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/attFiles.accdb;";
 		string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/attFiles.accdb;";
@@ -32,9 +47,6 @@ namespace FileExplorer
 
 		private delegate Node ParseDirDelegate();
 		// Notifications
-		private readonly NotificationManager notificationManager = new NotificationManager();
-		private readonly DispatcherTimer timer = new DispatcherTimer();
-		private readonly List<NotificationContent> notifications = new List<NotificationContent>();
 
 		//tree display source
 		ObservableCollection<Node> treeCtx = new ObservableCollection<Node>();
@@ -101,54 +113,65 @@ namespace FileExplorer
 			InitializeComponent();
 			LoadPathFile();
 			DataContext = this;
-			Brush titleBarBrush = new SolidColorBrush(WindowGlassColor);
-			SelectedOption = "Consultas";
-
-			getMessages(SelectedOption);
-			foreach (var m in mensajes)
-			{
-				// notifications.Add(new NotificationContent { Title = "Tip", Message = m, Type = NotificationType.Information });
-			}
-
-			// Configure and start the timer
-			//timer.Interval = TimeSpan.FromSeconds(5);
-			// timer.Tick += Timer_Tick;
-			// timer.Start();
+			timer = new System.Windows.Threading.DispatcherTimer();
+			timer.Tick += Timer_Tick;
+			timer.Interval = TimeSpan.FromSeconds(20);
+			timer.Start();
 		}
-
-		private void getMessages(string cat)
+		private void Timer_Tick(object sender, EventArgs e)
 		{
-			var query = "SELECT * FROM messages WHERE category = @idC";
-			using (OleDbConnection connection = new OleDbConnection(connectionString))
-			{
-				connection.Open();
-				OleDbCommand command = new OleDbCommand(query, connection);
-				command.Parameters.AddWithValue("@idC", cat);
-				command.ExecuteNonQuery();
+			string message = mensajes[currentMessageIndex];
+			currentMessageIndex = (currentMessageIndex + 1) % mensajes.Count;
 
-				OleDbDataReader reader = command.ExecuteReader();
-				while (reader.Read())
+			// Create the toast content
+			ToastContent content = new ToastContentBuilder()
+				.AddText("Tip")
+				.AddText(message)
+				.AddAppLogoOverride(new Uri(@"https://cdn-icons-png.flaticon.com/512/10231/10231559.png"), ToastGenericAppLogoCrop.Circle)
+				.GetToastContent();
+
+			// Show the toast notification
+			ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
+		}
+
+		public void getMessages(string uwu)
+		{
+			Debug.WriteLine("uwu : " + uwu);
+			try
+			{
+				var query = "SELECT msg FROM messages WHERE category = @idC";
+				using (OleDbConnection connection = new OleDbConnection(connectionString))
 				{
-					mensajes.Add(reader.GetValue(0).ToString());
+					connection.Open();
+					OleDbCommand command = new OleDbCommand(query, connection);
+					command.Parameters.AddWithValue("@idC", uwu);
+					command.ExecuteNonQuery();
+
+					OleDbDataReader reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						Debug.WriteLine(reader.GetValue(0).ToString());
+						mensajes.Add(reader.GetValue(0).ToString());
+					}
+					reader.Close();
+					connection.Close();
 				}
-				reader.Close();
-				connection.Close();
+			}
+			catch (Exception ex)
+			{
 			}
 		}
 
-		/* private void Timer_Tick(object sender, EventArgs e)
-		 {
-			 // Get a random notification from the list
-			 Random random = new Random();
-			 int index = random.Next(notifications.Count);
-			 NotificationContent notification = notifications[index];
-
-			 // Show the notification
-			 notificationManager.Show(notification, areaName: "WindowArea");
-		 }*/
 		public void LoadPathFile()
 		{
-			parseDirCorte = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ARCHIVOS DE AYUDAS VISUALES/";
+			try
+			{
+				parseDirCorte = "//servidorhp/Users/SGC/Documents/RED GENERAL MI/INGENIERÍA/Registros/GAIA/ARCHIVOS DE AYUDAS VISUALES/";
+
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 		private void createFirstNode()
 		{
@@ -171,31 +194,50 @@ namespace FileExplorer
 			};
 		}
 
+
+
+
 		//update all dependacy properties to current static values in Node class
 		private void UpdateCounts()
 		{
+
 			files = Node.files;
 			folders = Node.folders;
 			selectedFolders = Node.selectedFolders;
 			selectedFiles = Node.selectedFiles;
 			sizeInBytes = Node.selectedBytes;
+
 		}
 
 		public void viewTree_NodeChecked(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			TreeNode newSelected = e.Node;
-			DirectoryInfo _NewPath = (DirectoryInfo)newSelected.Tag;
-			if (_NewPath != null && !string.IsNullOrWhiteSpace(_NewPath.FullName))
+			try
+			{
+				TreeNode newSelected = e.Node;
+				DirectoryInfo _NewPath = (DirectoryInfo)newSelected.Tag;
+				if (_NewPath != null && !string.IsNullOrWhiteSpace(_NewPath.FullName))
+				{
+				}
+			}
+			catch (Exception ex)
 			{
 			}
+
 		}
 		public void viewTree_PreviewMouseRightClickDown(object sender, MouseButtonEventArgs e)
 		{
-			var carpetaOnly = Path.GetDirectoryName(Node.selectedBytes);
-			parseDirCorte = carpetaOnly;
-			//LoadPathFile();
-			ParseNewDir();
-			// createFirstNode();
+			try
+			{
+				var carpetaOnly = Path.GetDirectoryName(Node.selectedBytes);
+				parseDirCorte = carpetaOnly;
+				//LoadPathFile();
+				ParseNewDir();
+				// createFirstNode();
+			}
+			catch (Exception ex)
+			{
+			}
+
 		}
 
 		public void viewTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -218,6 +260,7 @@ namespace FileExplorer
 			parseDelegate.BeginInvoke(theCallback, this);
 		}
 
+
 		public void theCallback(IAsyncResult theResults)
 		{
 			AsyncResult result = (AsyncResult)theResults;
@@ -236,24 +279,59 @@ namespace FileExplorer
 		}
 		private void dirDisplay_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			ParseNewDir();
+			try
+			{
+				ParseNewDir();
+			}
+			catch (Exception ex)
+			{
+
+			}
+
 		}
 
 		private void chk_clicked(object sender, RoutedEventArgs e)
 		{
-			UpdateCounts();
+			nod = null;
+			var nodeS = Node.selectedBytes;
+			Debug.WriteLine("nodeS : " + nodeS);
+			nod = nodeS;
+			RadioButton radioButton = (RadioButton)sender;
+			if (radioButton.Template.FindName("lbl", radioButton) is Label label)
+			{
 
+				string labelText = label.Content.ToString();
+				//txtFolder.Text = labelText;
+			}
+			if (radioButton.Template.FindName("lbl", radioButton) is Label label2)
+			{
+				if (radioButton.IsChecked == true && radioButton != lastCheckedRadioButton)
+				{
+					if (lastCheckedRadioButton != null)
+					{
+						lastCheckedRadioButton.IsChecked = false;
+					}
+					lastCheckedRadioButton = radioButton;
+				}
+			}
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			//display folder dialog so user can select directory to parse
-			using (var fbd = new FolderBrowserDialog())
+			try
 			{
-				DialogResult result = fbd.ShowDialog();
-				if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-					parseDirCorte = fbd.SelectedPath;
+				//display folder dialog so user can select directory to parse
+				using (var fbd = new FolderBrowserDialog())
+				{
+					DialogResult result = fbd.ShowDialog();
+					if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+						parseDirCorte = fbd.SelectedPath;
+				}
 			}
+			catch (Exception ex)
+			{
+			}
+
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -270,9 +348,15 @@ namespace FileExplorer
 
 		private void MenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			string pathF = Node.selectedBytes;
-			timer.Stop();
+			try
+			{
+				string pathF = Node.selectedBytes;
 
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -297,45 +381,69 @@ namespace FileExplorer
 
 		private void MenuClick(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				mensajes.Clear();
+				timer.Stop();
+				WindowOptionsAV win = new WindowOptionsAV();
+				win.Show();
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 			//MainWindow winMain = new MainWindow();
 			//winMain.Close();
-			timer.Stop();
-			WindowOptionsAV win = new WindowOptionsAV();
-			win.Show();
-			Close();
+
 		}
 
 		private void ExitClick(object sender, RoutedEventArgs e)
-
 		{
-			timer.Stop();
-			Close();
+			try
+			{
+				mensajes.Clear();
+				timer.Stop();
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
 		}
 
 		private void Open_Click(object sender, RoutedEventArgs e)
 		{
-			if (Node.selectedBytes == null)
+			try
 			{
-				System.Windows.MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				if (nod == null)
+				{
+					System.Windows.MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+				else
+				{
 
+					if (Path.GetExtension(nod).Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+					{
+						var pathPdf = Path.GetFullPath(nod);
+						//extract_Rev();
+						//Process.Start(pathPdf);
+						Uri pdfUri = new Uri(pathPdf);
+						wb.Source = pdfUri;
+					}
+					else if (Path.GetExtension(nod).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+					{
+						var pathExcel = Path.GetFullPath(nod);
+						Process.Start(pathExcel);
+					}
+				}
 			}
-			else
+			catch (Exception ex)
 			{
-
-				if (Path.GetExtension(Node.selectedBytes).Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-				{
-					var pathPdf = Path.GetFullPath(Node.selectedBytes);
-					//extract_Rev();
-					//Process.Start(pathPdf);
-					Uri pdfUri = new Uri(pathPdf);
-					wb.Source = pdfUri;
-				}
-				else if (Path.GetExtension(Node.selectedBytes).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
-				{
-					var pathExcel = Path.GetFullPath(Node.selectedBytes);
-					Process.Start(pathExcel);
-				}
+				MessageBox.Show(ex.Message);
 			}
+
 		}
 
 		private void Save_Click(object sender, RoutedEventArgs e)
@@ -344,30 +452,51 @@ namespace FileExplorer
 		}
 		private void folder_click(object sender, RoutedEventArgs e)
 		{
-			if (Node.selectedBytes == null)
+			try
 			{
-				System.Windows.MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				if (Node.selectedBytes == null)
+				{
+					System.Windows.MessageBox.Show("Selecciona un archivo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+				else
+				{
+					Process.Start("explorer.exe", Path.GetDirectoryName(nod));
+				}
+
 			}
-			else
+			catch (Exception ex)
 			{
-				Process.Start("explorer.exe", Path.GetDirectoryName(Node.selectedBytes));
+				MessageBox.Show(ex.Message);
 			}
 		}
-
 		private void reloadTreeView_click(object sender, RoutedEventArgs e)
 		{
-			LoadPathFile();
-			ParseNewDir();
+			try
+			{
+				LoadPathFile();
+				ParseNewDir();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 		private void InicioClick(object sender, RoutedEventArgs e)
 		{
-			timer.Stop();
-			WindowLogin win = new WindowLogin();
-			win.Show();
-			Close();
+			try
+			{
+				mensajes.Clear();
+				timer.Stop();
+				WindowLogin win = new WindowLogin();
+				win.Show();
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
-
 	}
 }
 

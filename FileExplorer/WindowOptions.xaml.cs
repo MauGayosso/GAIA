@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Forms;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace FileExplorer
 {
@@ -17,32 +19,52 @@ namespace FileExplorer
 
 		private void btnClientes_Click(object sender, RoutedEventArgs e)
 		{
-			WindowClientsMenu win = new WindowClientsMenu();
-			win.Show();
-			Close();
+			try
+			{
+				WindowClientsMenu win = new WindowClientsMenu();
+				win.Show();
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 		private void btnAgregar_Click(object sender, RoutedEventArgs e)
 		{
-			int screenW = primaryScreen.Bounds.Width;
-			int screenH = primaryScreen.Bounds.Height;
-			if (screenW == 1920 & screenH == 1080)
+			try
 			{
-				WindowAdmin win = new WindowAdmin();
-				win.Show();
-				Close();
+				int screenW = primaryScreen.Bounds.Width;
+				int screenH = primaryScreen.Bounds.Height;
+				if (screenW == 1920 & screenH == 1080)
+				{
+					WindowAdmin win = new WindowAdmin();
+					win.Show();
+					Close();
+				}
+				else if (screenW == 1366 & screenH == 768)
+				{
+					WindowAdmin2 win = new WindowAdmin2();
+					win.Show();
+					Close();
+				}
+				else if (screenW == 1360 & screenH == 768)
+				{
+					WindowAdmin2 win = new WindowAdmin2();
+					win.Show();
+					Close();
+				}
+				else if (screenW == 1440 & screenH == 900)
+				{
+					WindowAdmin2 win = new WindowAdmin2();
+					win.Show();
+					Close();
+				}
 			}
-			else if (screenW == 1366 & screenH == 768)
+			catch (Exception ex)
 			{
-				WindowAdmin2 win = new WindowAdmin2();
-				win.Show();
-				Close();
-			}
-			else if (screenW == 1360 & screenH == 768)
-			{
-				WindowAdmin2 win = new WindowAdmin2();
-				win.Show();
-				Close();
+				MessageBox.Show(ex.Message);
 			}
 		}
 	}

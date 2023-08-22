@@ -82,6 +82,9 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ReachFramework" />
     <Reference Include="System">
@@ -123,6 +126,9 @@
     <Compile Include="MainWindow2.xaml.cs">
       <DependentUpon>MainWindow2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindow3.xaml.cs">
+      <DependentUpon>MainWindow3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Node.cs" />
     <Compile Include="OptionsGuess.xaml.cs">
       <DependentUpon>OptionsGuess.xaml</DependentUpon>
@@ -142,6 +148,9 @@
     <Compile Include="WindowAyudasVisuales2.xaml.cs">
       <DependentUpon>WindowAyudasVisuales2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowAyudasVisuales3.xaml.cs">
+      <DependentUpon>WindowAyudasVisuales3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowClientsMenu.xaml.cs">
       <DependentUpon>WindowClientsMenu.xaml</DependentUpon>
     </Compile>
@@ -153,6 +162,9 @@
     </Compile>
     <Compile Include="WindowGuess2.xaml.cs">
       <DependentUpon>WindowGuess2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowGuess3.xaml.cs">
+      <DependentUpon>WindowGuess3.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowLogin.xaml.cs">
       <DependentUpon>WindowLogin.xaml</DependentUpon>
@@ -186,6 +198,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MainWindow3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OptionsGuess.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -210,6 +226,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WindowAyudasVisuales3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowClientsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WindowGuess2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowGuess3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -492,9 +516,6 @@
     <PackageReference Include="WPF-UI">
       <Version>2.0.3</Version>
     </PackageReference>
-    <PackageReference Include="WPFNotification">
-      <Version>1.0.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="image\add.png" />
@@ -506,11 +527,14 @@
     <Resource Include="image\info.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="image\tip.png" />
+    <Resource Include="image\request.png" />
     <Resource Include="image\reload.png" />
     <Resource Include="image\administrate.png" />
     <Content Include="image\btnQ.png" />
     <Content Include="image\btnQuery.png" />
     <Resource Include="image\edit.png" />
+    <Resource Include="image\light-bulb.png" />
     <Content Include="image\q.png" />
     <Resource Include="image\search.png" />
     <Resource Include="image\home.png" />
