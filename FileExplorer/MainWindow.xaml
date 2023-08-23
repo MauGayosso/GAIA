@@ -217,7 +217,7 @@
                 <Button x:Name="btnParte" Style="{StaticResource RoundedButtonStyle}" Content="Buscar" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="24" Width="69" Background="White" BorderBrush="Black" Click="btnParte_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16" Margin="18,38,10,69" Grid.Row="3" Header="Contenido de la carpeta" Foreground="White" BorderBrush="Black">
+        <GroupBox FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="10" Width="300" Margin="18,38,-15,69" Grid.Row="3" Header="Contenido de la carpeta" Foreground="White" BorderBrush="Black">
             <ListView ToolTip="Contenido de carpeta" x:Name="listFilesNode" Visibility="Visible" SelectionMode="Single" Background="#FFC5C5C5" Grid.Row="3" RenderTransformOrigin="0.5,0.5" Height="54" VerticalAlignment="Center" BorderBrush="Black" Margin="4,0,4,0">
                 <ListView.RenderTransform>
                     <TransformGroup>

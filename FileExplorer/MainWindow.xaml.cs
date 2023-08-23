@@ -427,6 +427,7 @@ namespace FileExplorer
 			}
 			finally
 			{
+				txtSearch.Text = null;
 				btnBuscar.IsEnabled = true;
 				Mouse.OverrideCursor = null;
 			}
@@ -1000,7 +1001,7 @@ namespace FileExplorer
 						var pathExcel = Path.GetFullPath(path);
 						Process.Start(pathExcel);
 					}
-					else if (Path.GetExtension(path).Equals(".SLDPRT", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".dxf", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".STEP", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".STL", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".OBJ", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".SDLASM", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".dwg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".stp", StringComparison.OrdinalIgnoreCase))
+					else if (Path.GetExtension(path).Equals(".SLDPRT", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".dxf", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".STEP", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".STL", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".OBJ", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".SLDASM", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".dwg", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".stp", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path).Equals(".SLDDRW", StringComparison.OrdinalIgnoreCase))
 					{
 						if (measureB.Visibility == Visibility.Collapsed)
 						{
@@ -1149,8 +1150,10 @@ namespace FileExplorer
 				listAtts.ItemsSource = null;
 				txtP.Text = twSearched.SelectedItem.ToString();
 				var textP = txtP.Text;
-				string fullF = itemsp.Find(item => item.Contains(txtP.Text));
-				string fullP = itemsf.Find(item => item.Contains(txtP.Text));
+				string fullF = itemsp.Find(item => item.Contains(textP));
+				Debug.WriteLine("FullF : " + fullF);
+				string fullP = itemsf.Find(item => item.Contains(textP));
+				Debug.WriteLine("FullP : " + fullP);
 				if (fullP != null)
 				{
 					ContentPathTW(fullP);
@@ -1165,6 +1168,7 @@ namespace FileExplorer
 				else
 				{
 					Visualizar.IsEnabled = false;
+
 				}
 				attributesFiles(textP);
 				addGridAtts();
@@ -1249,6 +1253,7 @@ namespace FileExplorer
 				}
 				finally
 				{
+					txtSearch.Text = null;
 					btnBuscar.IsEnabled = true;
 					Mouse.OverrideCursor = null;
 				}
