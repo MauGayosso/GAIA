@@ -505,8 +505,7 @@ namespace FileExplorer
 		{
 			try
 			{
-				WindowClientsMenu win = new WindowClientsMenu();
-				win.Show();
+				OptionsGuess win = new OptionsGuess(); win.Show();
 				Close();
 			}
 			catch (Exception ex)

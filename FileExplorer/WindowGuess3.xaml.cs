@@ -504,7 +504,7 @@ namespace FileExplorer
 		{
 			try
 			{
-				WindowClientsMenu win = new WindowClientsMenu();
+				OptionsGuess win = new OptionsGuess(); 
 				win.Show();
 				Close();
 			}
